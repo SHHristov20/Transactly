@@ -6,7 +6,7 @@ function App() {
     <React.Fragment>
       {/* <Navbar /> */}
       <div className="flex w-screen h-screen justify-center items-center">
-        <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-6 md:w-1/2 xl:w-1/3">
           <h1 className="text-center text-4xl font-bold pb-5">Register</h1>
           <input
             placeholder="First Name"
