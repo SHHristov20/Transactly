@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router";
 const Register = () => {
   return (
     <React.Fragment>
@@ -8,24 +8,26 @@ const Register = () => {
           <h1 className="text-center text-4xl font-bold pb-5">Register</h1>
           <input
             placeholder="First Name"
-            className="border-b-[1px] focus:outline-none"
+            className="border-b-[1px] focus:outline-none py-2"
           />
           <input
             placeholder="Last Name"
-            className="border-b-[1px] focus:outline-none"
+            className="border-b-[1px] focus:outline-none py-2"
           />
           <input
             placeholder="Phone"
-            className="border-b-[1px] focus:outline-none"
+            className="border-b-[1px] focus:outline-none py-2"
           />
           <input
             placeholder="Password"
-            className="border-b-[1px] focus:outline-none"
+            className="border-b-[1px] focus:outline-none py-2"
           />
 
-          <button className="bg-pink-600 text-white rounded-full w-full py-3 my-2">
-            Continue
-          </button>
+          <Link to="/">
+            <button className="bg-pink-600 text-white rounded-full w-full py-3 my-2">
+              Continue
+            </button>
+          </Link>
         </div>
       </div>
     </React.Fragment>
