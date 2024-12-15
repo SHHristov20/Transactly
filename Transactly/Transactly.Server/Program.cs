@@ -40,11 +40,13 @@ namespace Transactly.Server
             builder.Services.AddScoped<UserRepository>();
             builder.Services.AddScoped<AccountRepository>();
             builder.Services.AddScoped<CardRepository>();
+            builder.Services.AddScoped<CurrencyRepository>();
 
             builder.Services.AddScoped<IBaseService, BaseService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICardService, CardService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
             var app = builder.Build();
 

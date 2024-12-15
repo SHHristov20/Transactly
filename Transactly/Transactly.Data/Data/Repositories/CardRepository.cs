@@ -36,5 +36,30 @@ namespace Transactly.Data.Data.Repositories
             await Create<Transaction>(transaction);
             return true;
         }
+
+        public async Task<bool> Payment(Card card, Account toAccount, decimal amount, decimal convertedAmount)
+        {
+            Transaction transaction = new()
+            {
+                Amount = amount,
+                FromAccount = card.Account,
+                ToAccount = toAccount,
+                Date = DateTime.Now,
+                TypeId = 5
+            };
+            if (card.Account.Balance < amount)
+            {
+                transaction.Status = false;
+                await Create<Transaction>(transaction);
+                return false;
+            }
+            card.Account.Balance -= amount;
+            toAccount.Balance += convertedAmount;
+            transaction.Status = true;
+            await Update<Account>(card.Account);
+            await Update<Account>(toAccount);
+            await Create<Transaction>(transaction);
+            return true;
+        }
     }
 }

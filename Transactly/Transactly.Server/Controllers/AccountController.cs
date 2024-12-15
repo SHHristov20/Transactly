@@ -3,16 +3,18 @@ using Transactly.Core.Interfaces;
 using Transactly.Core.DTOs;
 using Transactly.Data.Models;
 using Transactly.Core.Validators;
+using Transactly.Core.Services;
 
 namespace Transactly.Server.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class AccountController(IAccountService accountService, ICardService cardService, IUserService userService) : ControllerBase
+    public class AccountController(IAccountService accountService, ICardService cardService, IUserService userService, ICurrencyService currencyService) : ControllerBase
     {
         private readonly IAccountService _accountService = accountService;
         private readonly ICardService _cardService = cardService;
         private readonly IUserService _userService = userService;
+        private readonly ICurrencyService _currencyService = currencyService;
 
         [HttpPost(Name = "CreateAccount")]
 
@@ -80,7 +82,16 @@ namespace Transactly.Server.Controllers
                     await _accountService.Create<Transaction>(transaction1);
                     return BadRequest(new { message = "Invalid card details!", errorCode = 400 });
                 }
-                bool result = await _cardService.Payment(card, account, model.Amount);
+                bool result;
+                if (card.Account.CurrencyId != account.CurrencyId)
+                {
+                    decimal convertedAmount = await _currencyService.Exchange(model.Amount, card.Account.CurrencyId, account.CurrencyId);
+                    result = await _cardService.Payment(card, account, model.Amount, convertedAmount);
+                }
+                else
+                {
+                    result = await _cardService.Payment(card, account, model.Amount);
+                }
                 if (result == false)
                 {
                     return BadRequest(new { message = "Failed to deposit funds!", errorCode = 500 });

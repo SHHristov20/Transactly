@@ -18,5 +18,10 @@ namespace Transactly.Core.Services
         {
             return await _cardRepository.Payment(card, toAccount, amount);
         }
+
+        public async Task<bool> Payment(Card card, Account toAccount, decimal amount, decimal convertedAmount)
+        {
+            return await _cardRepository.Payment(card, toAccount, amount, convertedAmount);
+        }
     }
 }
