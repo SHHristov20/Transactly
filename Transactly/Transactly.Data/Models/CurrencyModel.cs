@@ -19,5 +19,7 @@ namespace Transactly.Data.Models
         public string CurrencySymbol { get; set; } = null!;
         
         public ICollection<Account> Accounts { get; set; } = null!;
+        public ICollection<ExchangeRate> ExchangeRates { get; set; } = null!;
+        public ICollection<ExchangeRate> ExchangeCurrencyRates { get; set; } = null!;
     }
 }

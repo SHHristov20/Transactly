@@ -157,6 +157,244 @@ namespace Transactly.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Transactly.Data.Models.ExchangeRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExchangeCurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("ExchangeCurrencyId");
+
+                    b.ToTable("ExchangeRates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CurrencyId = 1,
+                            ExchangeCurrencyId = 2,
+                            Rate = 0.54m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CurrencyId = 1,
+                            ExchangeCurrencyId = 3,
+                            Rate = 0.51m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CurrencyId = 1,
+                            ExchangeCurrencyId = 4,
+                            Rate = 0.42m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CurrencyId = 1,
+                            ExchangeCurrencyId = 5,
+                            Rate = 82.66m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CurrencyId = 1,
+                            ExchangeCurrencyId = 6,
+                            Rate = 0.84m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CurrencyId = 2,
+                            ExchangeCurrencyId = 1,
+                            Rate = 1.86m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CurrencyId = 2,
+                            ExchangeCurrencyId = 3,
+                            Rate = 0.95m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CurrencyId = 2,
+                            ExchangeCurrencyId = 4,
+                            Rate = 0.79m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CurrencyId = 2,
+                            ExchangeCurrencyId = 5,
+                            Rate = 153.86m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CurrencyId = 2,
+                            ExchangeCurrencyId = 6,
+                            Rate = 1.57m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CurrencyId = 3,
+                            ExchangeCurrencyId = 1,
+                            Rate = 1.96m
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CurrencyId = 3,
+                            ExchangeCurrencyId = 2,
+                            Rate = 1.05m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CurrencyId = 3,
+                            ExchangeCurrencyId = 4,
+                            Rate = 0.83m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CurrencyId = 3,
+                            ExchangeCurrencyId = 5,
+                            Rate = 161.67m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CurrencyId = 3,
+                            ExchangeCurrencyId = 6,
+                            Rate = 1.65m
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CurrencyId = 4,
+                            ExchangeCurrencyId = 1,
+                            Rate = 2.36m
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CurrencyId = 4,
+                            ExchangeCurrencyId = 2,
+                            Rate = 1.26m
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CurrencyId = 4,
+                            ExchangeCurrencyId = 3,
+                            Rate = 1.20m
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CurrencyId = 4,
+                            ExchangeCurrencyId = 5,
+                            Rate = 194.30m
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CurrencyId = 4,
+                            ExchangeCurrencyId = 6,
+                            Rate = 1.98m
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CurrencyId = 5,
+                            ExchangeCurrencyId = 1,
+                            Rate = 0.012m
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CurrencyId = 5,
+                            ExchangeCurrencyId = 2,
+                            Rate = 0.0065m
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CurrencyId = 5,
+                            ExchangeCurrencyId = 3,
+                            Rate = 0.0062m
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CurrencyId = 5,
+                            ExchangeCurrencyId = 4,
+                            Rate = 0.0052m
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CurrencyId = 5,
+                            ExchangeCurrencyId = 6,
+                            Rate = 0.01m
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CurrencyId = 6,
+                            ExchangeCurrencyId = 1,
+                            Rate = 1.18m
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CurrencyId = 6,
+                            ExchangeCurrencyId = 2,
+                            Rate = 0.64m
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CurrencyId = 6,
+                            ExchangeCurrencyId = 3,
+                            Rate = 0.61m
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CurrencyId = 6,
+                            ExchangeCurrencyId = 4,
+                            Rate = 0.5m
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CurrencyId = 6,
+                            ExchangeCurrencyId = 5,
+                            Rate = 97.88m
+                        });
+                });
+
             modelBuilder.Entity("Transactly.Data.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -309,6 +547,25 @@ namespace Transactly.Data.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("Transactly.Data.Models.ExchangeRate", b =>
+                {
+                    b.HasOne("Transactly.Data.Models.Currency", "Currency")
+                        .WithMany("ExchangeRates")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Transactly.Data.Models.Currency", "ExchangeCurrency")
+                        .WithMany("ExchangeCurrencyRates")
+                        .HasForeignKey("ExchangeCurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("ExchangeCurrency");
+                });
+
             modelBuilder.Entity("Transactly.Data.Models.Transaction", b =>
                 {
                     b.HasOne("Transactly.Data.Models.Account", "FromAccount")
@@ -348,6 +605,10 @@ namespace Transactly.Data.Migrations
             modelBuilder.Entity("Transactly.Data.Models.Currency", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("ExchangeCurrencyRates");
+
+                    b.Navigation("ExchangeRates");
                 });
 
             modelBuilder.Entity("Transactly.Data.Models.TransactionType", b =>
