@@ -42,6 +42,10 @@ namespace Transactly.Data.Data.Contexts
                 .Property(x => x.Id)
                 .UseIdentityColumn();
 
+            modelBuilder.Entity<Card>()
+                .Property(x => x.Id)
+                .UseIdentityColumn();
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Accounts)
                 .WithOne(a => a.User)
@@ -68,6 +72,11 @@ namespace Transactly.Data.Data.Contexts
                 .WithMany(a => a.OutgoingTransactions)
                 .HasForeignKey(t => t.ToAccountId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Card>()
+                .HasOne(c => c.Account)
+                .WithMany(a => a.Cards)
+                .HasForeignKey(c => c.AccountId);
 
             SeedData(modelBuilder);
 

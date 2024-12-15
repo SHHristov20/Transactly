@@ -15,7 +15,7 @@ namespace Transactly.Data.Models
         public string AccountNumber { get; set; } = null!;
 
         [Required]
-        [Column(TypeName = "money")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Balance { get; set; } = 0;
 
         [Required]
@@ -28,6 +28,7 @@ namespace Transactly.Data.Models
 
         public ICollection<Transaction> IncomingTransactions { get; set; } = null!;
         public ICollection<Transaction> OutgoingTransactions { get; set; } = null!;
+        public ICollection<Card> Cards { get; set; } = null!;
 
     }
 }

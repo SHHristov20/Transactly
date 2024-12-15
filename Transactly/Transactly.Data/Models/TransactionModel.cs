@@ -10,7 +10,7 @@ namespace Transactly.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "money")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
 
         [Required]
