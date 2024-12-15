@@ -5,7 +5,7 @@ using Transactly.Data.Models;
 
 namespace Transactly.Core.Services
 {
-    public class CardService(IBaseRepository repository, CardRepository cardRepository) : BaseService(cardRepository), ICardService
+    public class CardService(IBaseRepository repository, CardRepository cardRepository) : BaseService(repository), ICardService
     {
         private readonly CardRepository _cardRepository = cardRepository;
 
