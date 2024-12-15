@@ -1,4 +1,10 @@
 
+using Transactly.Core.Interfaces;
+using Transactly.Core.Services;
+using Transactly.Data.Data.Contexts;
+using Transactly.Data.Data.Repositories;
+using Transactly.Data.Interfaces;
+
 namespace Transactly.Server
 {
     public class Program
@@ -13,6 +19,15 @@ namespace Transactly.Server
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<TransactlyDbContext>();
+
+            builder.Services.AddScoped<IBaseRepository, BaseRepository>();
+            builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<AccountRepository>();
+
+            builder.Services.AddScoped<IBaseService, BaseService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 
