@@ -20,6 +20,19 @@ namespace Transactly.Server
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost", "https://localhost")
+                              .AllowAnyMethod()
+                              .AllowAnyHeader()
+                              .AllowCredentials();
+                    });
+            });
+
+
             builder.Services.AddDbContext<TransactlyDbContext>();
 
             builder.Services.AddScoped<IBaseRepository, BaseRepository>();
