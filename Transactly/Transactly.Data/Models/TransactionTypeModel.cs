@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Transactly.Data.Interfaces;
 
 namespace Transactly.Data.Models
@@ -11,6 +12,7 @@ namespace Transactly.Data.Models
         [Required]
         public string Type { get; set; } = null!;
 
-        public ICollection<Transaction> Transactions { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<Transaction> Transactions { get; set; } = null!;
     }
 }

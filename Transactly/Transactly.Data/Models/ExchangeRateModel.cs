@@ -15,10 +15,10 @@ namespace Transactly.Data.Models
 
         [Required]
         public int CurrencyId { get; set; }
-        public Currency Currency { get; set; } = null!;
+        public virtual Currency Currency { get; set; } = null!;
 
         [Required]
         public int ExchangeCurrencyId { get; set; }
-        public Currency ExchangeCurrency { get; set; } = null!;
+        public virtual Currency ExchangeCurrency { get; set; } = null!;
     }
 }

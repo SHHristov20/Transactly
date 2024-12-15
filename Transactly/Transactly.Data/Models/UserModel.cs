@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Transactly.Data.Interfaces;
 
 namespace Transactly.Data.Models
@@ -28,6 +29,7 @@ namespace Transactly.Data.Models
         public Guid SessionToken { get; set; }
         public DateTime TokenExpiry { get; set; }
 
-        public ICollection<Account> Accounts { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<Account> Accounts { get; set; } = null!;
     }
 }

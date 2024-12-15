@@ -25,7 +25,7 @@ namespace Transactly.Server.Controllers
             {
                 if (acc.CurrencyId == model.CurrencyId)
                 {
-                    return BadRequest(new { message = $"Account in ${acc.Currency.CurrencyName} already exists!", errorCode = 400 });
+                    return BadRequest(new { message = $"Account in {acc.Currency.CurrencyName} already exists!", errorCode = 400 });
                 }
             }
             Random random = new();

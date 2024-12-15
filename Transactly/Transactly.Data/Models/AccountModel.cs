@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Transactly.Data.Interfaces;
 
 namespace Transactly.Data.Models
@@ -20,15 +21,18 @@ namespace Transactly.Data.Models
 
         [Required]
         public int UserId { get; set; }
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
         [Required]
         public int CurrencyId { get; set; }
-        public Currency Currency { get; set; } = null!;
+        public virtual Currency Currency { get; set; } = null!;
 
-        public ICollection<Transaction> IncomingTransactions { get; set; } = null!;
-        public ICollection<Transaction> OutgoingTransactions { get; set; } = null!;
-        public ICollection<Card> Cards { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<Transaction> IncomingTransactions { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<Transaction> OutgoingTransactions { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<Card> Cards { get; set; } = null!;
 
     }
 }

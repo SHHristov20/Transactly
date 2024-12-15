@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Transactly.Data.Interfaces;
 
 namespace Transactly.Data.Models
@@ -17,9 +18,12 @@ namespace Transactly.Data.Models
 
         [StringLength(3)]
         public string CurrencySymbol { get; set; } = null!;
-        
-        public ICollection<Account> Accounts { get; set; } = null!;
-        public ICollection<ExchangeRate> ExchangeRates { get; set; } = null!;
-        public ICollection<ExchangeRate> ExchangeCurrencyRates { get; set; } = null!;
+
+        [JsonIgnore]
+        public virtual ICollection<Account> Accounts { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<ExchangeRate> ExchangeRates { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<ExchangeRate> ExchangeCurrencyRates { get; set; } = null!;
     }
 }

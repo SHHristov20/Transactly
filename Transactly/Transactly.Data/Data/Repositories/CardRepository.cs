@@ -20,7 +20,8 @@ namespace Transactly.Data.Data.Repositories
                 FromAccount = card.Account,
                 ToAccount = toAccount,
                 Date = DateTime.Now,
-                TypeId = 5
+                TypeId = 1,
+                Reason = "Deposit"
             };
             if (card.Account.Balance < amount)
             {
@@ -45,7 +46,8 @@ namespace Transactly.Data.Data.Repositories
                 FromAccount = card.Account,
                 ToAccount = toAccount,
                 Date = DateTime.Now,
-                TypeId = 5
+                TypeId = 1,
+                Reason = "Deposit"
             };
             if (card.Account.Balance < amount)
             {

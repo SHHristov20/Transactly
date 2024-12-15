@@ -20,11 +20,11 @@ namespace Transactly.Data.Models
 
         [Required]
         public int FromAccountId { get; set; }
-        public Account FromAccount { get; set; } = null!;
+        public virtual Account FromAccount { get; set; } = null!;
 
         [Required]
         public int ToAccountId { get; set; }
-        public Account ToAccount { get; set; } = null!;
+        public virtual Account ToAccount { get; set; } = null!;
 
         [Required]
         public bool Status { get; set; }
@@ -32,6 +32,6 @@ namespace Transactly.Data.Models
 
         [Required]
         public int TypeId { get; set; }
-        public TransactionType Type { get; set; } = null!;
+        public virtual TransactionType Type { get; set; } = null!;
     }
 }
