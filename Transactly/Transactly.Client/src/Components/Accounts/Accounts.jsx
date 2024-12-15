@@ -1,5 +1,5 @@
 import React from "react";
-import Account from "./Accounts/Account";
+import Account from "./Account";
 
 const Accounts = () => {
   return (
