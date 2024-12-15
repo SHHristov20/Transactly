@@ -8,9 +8,10 @@ namespace Transactly.Server.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class AccountController(IAccountService accountService) : ControllerBase
+    public class AccountController(IAccountService accountService, ICardService cardService) : ControllerBase
     {
         private readonly IAccountService _accountService = accountService;
+        private readonly ICardService _cardService = cardService;
 
         [HttpPost(Name = "CreateAccount")]
 
@@ -22,7 +23,7 @@ namespace Transactly.Server.Controllers
             {
                 accountNumber += random.Next(0, 9).ToString();
             }
-            Account account = new Account
+            Account account = new()
             {
                 UserId = model.UserId,
                 CurrencyId = model.CurrencyId,
@@ -39,7 +40,7 @@ namespace Transactly.Server.Controllers
         [HttpPost(Name = "DepositFunds")]
         public async Task<IActionResult> Deposit([FromBody] DepositFundsDTO model)
         {
-            Account ?account = await _accountService.GetById<Account>(model.AccountId);
+            Account? account = await _accountService.GetById<Account>(model.AccountId);
             if (account == null)
             {
                 return BadRequest(new { message = "Account not found!", errorCode = 404 });
@@ -48,32 +49,64 @@ namespace Transactly.Server.Controllers
             {
                 return BadRequest(new { message = "Amount must be greater than 0!", errorCode = 400 });
             }
-            if(CardValidator.IsValidCreditCardNumber(model.CardNumber) == false)
+            if (CardValidator.IsValidCreditCardNumber(model.CardNumber) == false)
             {
                 return BadRequest(new { message = "Invalid card number!", errorCode = 400 });
             }
-            if(CardValidator.IsValidExpiryDate(model.ExpiryDate) == false)
+            if (CardValidator.IsValidExpiryDate(model.ExpiryDate) == false)
             {
                 return BadRequest(new { message = "Invalid expiration date!", errorCode = 400 });
             }
-            account.Balance += Math.Round(model.Amount, 2);
-            bool result = await _accountService.Update<Account>(account);
-            Transaction transaction = new()
+            if (model.CVV.Length != 3)
             {
-                Amount = Math.Round(model.Amount, 2),
-                Date = DateTime.Now,
-                FromAccountId = account.Id,
-                ToAccountId = account.Id,
-                Reason = "Deposit",
-                Status = true,
-                TypeId = 1
-            };
-            bool result2 = await _accountService.Create<Transaction>(transaction);
-            if (result && result2)
+                return BadRequest(new { message = "Invalid CVV!", errorCode = 400 });
+            }
+            Card? card = await _cardService.GetCardByNumber(model.CardNumber);
+            if (card != null)
             {
+                if (model.CVV != card.CVV || model.ExpiryDate != card.ExpiryDate)
+                {
+                    Transaction transaction1 = new()
+                    {
+                        Amount = Math.Round(model.Amount, 2),
+                        Date = DateTime.Now,
+                        FromAccountId = card.AccountId,
+                        ToAccountId = account.Id,
+                        Reason = "Deposit",
+                        Status = false,
+                        TypeId = 1
+                    };
+                    await _accountService.Create<Transaction>(transaction1);
+                    return BadRequest(new { message = "Invalid card details!", errorCode = 400 });
+                }
+                bool result = await _cardService.Payment(card, account, model.Amount);
+                if (result == false)
+                {
+                    return BadRequest(new { message = "Failed to deposit funds!", errorCode = 500 });
+                }
                 return Ok();
             }
-            return BadRequest(new { message = "Failed to deposit funds!", errorCode = 500 });
+            else
+            {
+                account.Balance += Math.Round(model.Amount, 2);
+                bool result = await _accountService.Update<Account>(account);
+                Transaction transaction = new()
+                {
+                    Amount = Math.Round(model.Amount, 2),
+                    Date = DateTime.Now,
+                    FromAccountId = account.Id,
+                    ToAccountId = account.Id,
+                    Reason = "Deposit",
+                    Status = true,
+                    TypeId = 1
+                };
+                await _accountService.Create<Transaction>(transaction);
+                if (result)
+                {
+                    return Ok();
+                }
+                return BadRequest(new { message = "Failed to deposit funds!", errorCode = 500 });
+            }
         }
     }
 }

@@ -19,5 +19,6 @@ namespace Transactly.Core.DTOs
         public string? Reason { get; set; }
         public string CardNumber { get; set; } = null!;
         public string ExpiryDate { get; set; } = null!;
+        public string CVV { get; set; } = null!;
     }
 }

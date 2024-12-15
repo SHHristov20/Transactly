@@ -10,6 +10,7 @@ namespace Transactly.Data.Data.Contexts
         public DbSet<Currency> Currencies { get; set; } = null!;
         public DbSet<Transaction> Transactions { get; set; } = null!;
         public DbSet<TransactionType> TransactionTypes { get; set; } = null!;
+        public DbSet<Card> Cards { get; set; } = null!;
 
         public TransactlyDbContext() { }
         public TransactlyDbContext(DbContextOptions<TransactlyDbContext> options) : base(options) { }

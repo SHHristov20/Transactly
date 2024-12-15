@@ -5,14 +5,9 @@ using Transactly.Data.Models;
 
 namespace Transactly.Core.Services
 {
-    public class UserService : BaseService, IUserService
+    public class UserService(IBaseRepository repository, UserRepository userRepository) : BaseService(repository), IUserService
     {
-        private readonly UserRepository _userRepository;
-
-        public UserService(IBaseRepository repository, UserRepository userRepository) : base(repository)
-        {
-            _userRepository = userRepository;
-        }
+        private readonly UserRepository _userRepository = userRepository;
 
         public async Task<User?> GetUserByEmail(string email)
         {

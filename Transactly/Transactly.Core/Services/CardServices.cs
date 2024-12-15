@@ -1,0 +1,22 @@
+﻿using Transactly.Core.Interfaces;
+using Transactly.Data.Data.Repositories;
+using Transactly.Data.Interfaces;
+using Transactly.Data.Models;
+
+namespace Transactly.Core.Services
+{
+    public class CardService(IBaseRepository repository, CardRepository cardRepository) : BaseService(cardRepository), ICardService
+    {
+        private readonly CardRepository _cardRepository = cardRepository;
+
+        public async Task<Card?> GetCardByNumber(string cardNumber)
+        {
+            return await _cardRepository.GetCardByNumber(cardNumber);
+        }
+
+        public async Task<bool> Payment(Card card, Account toAccount, decimal amount)
+        {
+            return await _cardRepository.Payment(card, toAccount, amount);
+        }
+    }
+}

@@ -5,10 +5,7 @@ using Transactly.Data.Models;
 
 namespace Transactly.Core.Services
 {
-    public class AccountService : BaseService, IAccountService
+    public class AccountService(IBaseRepository repository) : BaseService(repository), IAccountService
     {
-        public AccountService(IBaseRepository repository) : base(repository)
-        {
-        }
     }
 }
