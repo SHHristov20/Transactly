@@ -15,8 +15,7 @@ namespace Transactly.Data.Models
         [StringLength(3)]
         public string CurrencyCode { get; set; } = null!;
 
-        [Required]
-        [StringLength(1)]
+        [StringLength(3)]
         public string CurrencySymbol { get; set; } = null!;
         
         public ICollection<Account> Accounts { get; set; } = null!;

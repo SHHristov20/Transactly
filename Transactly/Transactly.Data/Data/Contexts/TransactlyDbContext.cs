@@ -69,6 +69,37 @@ namespace Transactly.Data.Data.Contexts
                 .HasForeignKey(t => t.ToAccountId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            SeedData(modelBuilder);
+
+        }
+
+        private void SeedData(ModelBuilder modelBuilder)
+        {
+            SeedCurrencies(modelBuilder);
+            SeedTransactionTypes(modelBuilder);
+        }
+
+        private void SeedTransactionTypes(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TransactionType>().HasData(
+                new TransactionType { Id = 1, Type = "Deposit" },
+                new TransactionType { Id = 2, Type = "Withdrawal" },
+                new TransactionType { Id = 3, Type = "Transfer" },
+                new TransactionType { Id = 4, Type = "Exchange" },
+                new TransactionType { Id = 5, Type = "Card Payment" }
+            );
+        }
+
+        private void SeedCurrencies(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Currency>().HasData(
+                new Currency { Id = 1, CurrencyName = "Bulgarian Lev", CurrencyCode = "BGN", CurrencySymbol = "лв" },
+                new Currency { Id = 2, CurrencyName = "US Dollar", CurrencyCode = "USD", CurrencySymbol = "$" },
+                new Currency { Id = 3, CurrencyName = "Euro", CurrencyCode = "EUR", CurrencySymbol = "€" },
+                new Currency { Id = 4, CurrencyName = "British Pound", CurrencyCode = "GBP", CurrencySymbol = "£" },
+                new Currency { Id = 5, CurrencyName = "Japanese Yen", CurrencyCode = "JPY", CurrencySymbol = "¥" },
+                new Currency { Id = 6, CurrencyName = "Australian Dollar", CurrencyCode = "AUD", CurrencySymbol = "$" }
+            );
         }
     }
 }
