@@ -20,6 +20,11 @@ namespace Transactly.Data.Models
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
+        public string UserTag { get; set; } = null!;
+
+        [Required]
         public string PasswordHash { get; set; } = null!;
+
+        public ICollection<Account> Accounts { get; set; } = null!;
     }
 }
