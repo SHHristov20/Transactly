@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Transactly.Data.Models;
 
 namespace Transactly.Data.Data.Contexts
 {
     public class TransactlyDbContext : DbContext
     {
-
-
+        public DbSet<User> Users { get; set; } = null!;
         public TransactlyDbContext() { }
         public TransactlyDbContext(DbContextOptions<TransactlyDbContext> options) : base(options)
         {
+                
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -17,7 +18,10 @@ namespace Transactly.Data.Data.Contexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                .Property(x => x.Id)
+                .UseIdentityColumn();
         }
     }
 }
