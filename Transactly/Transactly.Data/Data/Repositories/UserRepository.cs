@@ -22,5 +22,10 @@ namespace Transactly.Data.Data.Repositories
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
+
+        public async Task<User?> GetUserByToken(Guid token)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.SessionToken == token);
+        }
     }
 }

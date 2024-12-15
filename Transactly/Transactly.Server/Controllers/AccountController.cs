@@ -8,10 +8,11 @@ namespace Transactly.Server.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class AccountController(IAccountService accountService, ICardService cardService) : ControllerBase
+    public class AccountController(IAccountService accountService, ICardService cardService, IUserService userService) : ControllerBase
     {
         private readonly IAccountService _accountService = accountService;
         private readonly ICardService _cardService = cardService;
+        private readonly IUserService _userService = userService;
 
         [HttpPost(Name = "CreateAccount")]
 
@@ -108,5 +109,18 @@ namespace Transactly.Server.Controllers
                 return BadRequest(new { message = "Failed to deposit funds!", errorCode = 500 });
             }
         }
+
+        [HttpGet(Name = "GetAllAccounts")]
+        public async Task<IActionResult> GetAll([FromQuery] Guid token)
+        {
+            User? user = await _userService.GetUserByToken(token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            IEnumerable<Account> accounts = await _accountService.GetAccountsByUserId(user.Id);
+            return Ok(accounts);
+        }
+
     }
 }

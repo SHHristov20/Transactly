@@ -14,7 +14,6 @@ namespace Transactly.Server.Controllers
         private readonly IUserService _userService = userService;
 
         [HttpPost(Name = "CreateUser")]
-
         public async Task<IActionResult> Create([FromBody] CreateUserDTO model)
         {
             if (!ModelState.IsValid)
@@ -57,13 +56,56 @@ namespace Transactly.Server.Controllers
                 PhoneNumber = model.PhoneNumber,
                 UserTag = UserValidator.GenerateUserTag(model.FirstName),
                 PasswordHash = PasswordValidator.HashPassword(model.Password),
+                SessionToken = Guid.NewGuid(),
+                TokenExpiry = DateTime.Now.AddHours(1)
             };
             bool result = await _userService.Create<User>(user);
             if (result)
             {
-                return Ok();
+                return Ok(user.SessionToken);
             }
             return BadRequest(new { message = "Failed to create user!", errorCode = 500 });
+        }
+
+        [HttpGet(Name = "GetCurrentUser")]
+        public async Task<IActionResult> GetCurrentUser([FromQuery] Guid sessionToken)
+        {
+            User ?user = await _userService.GetUserByToken(sessionToken);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            return Ok(user);
+        }
+
+        [HttpPost(Name = "Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "User data is required!", errorCode = 400 });
+            }
+            if (UserValidator.ValidateEmail(model.Email) == false)
+            {
+                return BadRequest(new { message = "Invalid email!", errorCode = 400 });
+            }
+            User? user = await _userService.GetUserByEmail(model.Email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "Invalid email!", errorCode = 400 });
+            }
+            if (PasswordValidator.VerifyPassword(model.Password, user.PasswordHash) == false)
+            {
+                return BadRequest(new { message = "Wrong password!", errorCode = 400 });
+            }
+            user.SessionToken = Guid.NewGuid();
+            user.TokenExpiry = DateTime.Now.AddHours(1);
+            bool result = await _userService.Update<User>(user);
+            if (result)
+            {
+                return Ok(user.SessionToken);
+            }
+            return BadRequest(new { message = "Failed to login!", errorCode = 500 });
         }
     }
 }

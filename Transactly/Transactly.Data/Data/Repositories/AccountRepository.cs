@@ -8,7 +8,10 @@ namespace Transactly.Data.Data.Repositories
     {
         private readonly TransactlyDbContext _dbContext = dbContext;
 
-        // add money to account
+        public async Task<IEnumerable<Account>> GetAccountsByUserId(int id)
+        {
+            return await _dbContext.Accounts.Where(a => a.UserId == id).ToListAsync();
+        }
 
     }
 }

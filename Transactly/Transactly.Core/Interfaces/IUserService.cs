@@ -6,5 +6,6 @@ namespace Transactly.Core.Interfaces
     {
         Task<User?> GetUserByEmail(string email);
         Task<User?> GetUserByPhoneNumber(string phoneNumber);
+        Task<User?> GetUserByToken(Guid token);
     }
 }

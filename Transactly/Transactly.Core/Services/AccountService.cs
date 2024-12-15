@@ -5,7 +5,12 @@ using Transactly.Data.Models;
 
 namespace Transactly.Core.Services
 {
-    public class AccountService(IBaseRepository repository) : BaseService(repository), IAccountService
+    public class AccountService(IBaseRepository repository, AccountRepository accountRepository) : BaseService(repository), IAccountService
     {
+        private readonly AccountRepository _accountRepository = accountRepository;
+        public async Task<IEnumerable<Account>> GetAccountsByUserId(int id)
+        {
+            return await _accountRepository.GetAccountsByUserId(id);
+        }
     }
 }

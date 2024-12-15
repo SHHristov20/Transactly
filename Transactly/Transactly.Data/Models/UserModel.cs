@@ -25,6 +25,9 @@ namespace Transactly.Data.Models
         [Required]
         public string PasswordHash { get; set; } = null!;
 
+        public Guid SessionToken { get; set; }
+        public DateTime TokenExpiry { get; set; }
+
         public ICollection<Account> Accounts { get; set; } = null!;
     }
 }

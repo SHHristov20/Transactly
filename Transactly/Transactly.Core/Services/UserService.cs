@@ -18,5 +18,9 @@ namespace Transactly.Core.Services
         {
             return await _userRepository.GetUserByPhoneNumber(phoneNumber);
         }
+        public async Task<User?> GetUserByToken(Guid token)
+        {
+            return await _userRepository.GetUserByToken(token);
+        }       
     }
 }
