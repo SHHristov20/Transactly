@@ -13,57 +13,57 @@ namespace Transactly.Server.Controllers
     {
         private readonly IUserService _userService = userService;
 
-        [HttpPost(Name = "Create")]
+        [HttpPost(Name = "CreateUser")]
 
-        public async Task<IActionResult> Create([FromBody] CreateUserDTO entity)
+        public async Task<IActionResult> Create([FromBody] CreateUserDTO model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { message = "User data is required!", errorCode = 400 });
             }
-            if(UserValidator.ValidateName(entity.FirstName) == false)
+            if(UserValidator.ValidateName(model.FirstName) == false)
             {
                 return BadRequest(new { message = "Invalid first name!", errorCode = 400 });
             }
-            if (UserValidator.ValidateName(entity.LastName) == false)
+            if (UserValidator.ValidateName(model.LastName) == false)
             {
                 return BadRequest(new { message = "Invalid last name!", errorCode = 400 });
             }
-            if (UserValidator.ValidateEmail(entity.Email) == false)
+            if (UserValidator.ValidateEmail(model.Email) == false)
             {
                 return BadRequest(new { message = "Invalid email!", errorCode = 400 });
             }
-            if (UserValidator.ValidatePhoneNumber(entity.PhoneNumber) == false)
+            if (UserValidator.ValidatePhoneNumber(model.PhoneNumber) == false)
             {
                 return BadRequest(new { message = "Invalid phone number!", errorCode = 400 });
             }
-            if (UserValidator.ValidatePassword(entity.Password) == false)
+            if (UserValidator.ValidatePassword(model.Password) == false)
             {
                 return BadRequest(new { message = "Password must contain atleast 8 characters!", errorCode = 400 });
             }
-            if (await _userService.GetUserByEmail(entity.Email) != null)
+            if (await _userService.GetUserByEmail(model.Email) != null)
             {
                 return BadRequest(new { message = "Email already exists!", errorCode = 400 });
             }
-            if (await _userService.GetUserByPhoneNumber(entity.PhoneNumber) != null)
+            if (await _userService.GetUserByPhoneNumber(model.PhoneNumber) != null)
             {
                 return BadRequest(new { message = "Phone number already exists!", errorCode = 400 });
             }
             User user = new()
             {
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                Email = entity.Email,
-                PhoneNumber = entity.PhoneNumber,
-                UserTag = UserValidator.GenerateUserTag(entity.FirstName),
-                PasswordHash = PasswordValidator.HashPassword(entity.Password)
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                UserTag = UserValidator.GenerateUserTag(model.FirstName),
+                PasswordHash = PasswordValidator.HashPassword(model.Password),
             };
             bool result = await _userService.Create<User>(user);
             if (result)
             {
                 return Ok();
             }
-            return BadRequest();
+            return BadRequest(new { message = "Failed to create user!", errorCode = 500 });
         }
     }
 }

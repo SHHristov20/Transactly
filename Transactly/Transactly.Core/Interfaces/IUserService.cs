@@ -1,5 +1,4 @@
 ﻿using Transactly.Data.Models;
-using Transactly.Core.Interfaces;
 
 namespace Transactly.Core.Interfaces
 {

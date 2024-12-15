@@ -28,6 +28,7 @@ namespace Transactly.Server
 
             builder.Services.AddScoped<IBaseService, BaseService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
             var app = builder.Build();
 
