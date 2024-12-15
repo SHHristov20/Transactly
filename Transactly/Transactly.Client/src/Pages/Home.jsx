@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
-import Accounts from "../Components/Accounts";
+import Accounts from "../Components/Accounts/Accounts";
+import Transactions from "../Components/Transactions/Transactions";
 
 const Home = () => {
   const [tab, setTab] = useState("Accounts");
@@ -49,6 +50,7 @@ const Home = () => {
           <Header tab={tab} setTab={setTab} />
 
           {tab === "Accounts" && <Accounts />}
+          {tab === "Transactions" && <Transactions />}
         </div>
       </div>
     </React.Fragment>
