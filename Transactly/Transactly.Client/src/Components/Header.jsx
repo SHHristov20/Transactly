@@ -7,7 +7,7 @@ import { FaArrowRight } from "react-icons/fa6";
 const Header = () => {
   return (
     <React.Fragment>
-      <div className="flex-1 p-6 overflow-y-auto space-y-3">
+      <div className="p-6 overflow-y-auto space-y-3">
         <div className="flex flex-col md:flex-row justify-between">
           <h1 className="text-4xl font-bold mb-4">
             $230,630<span className="text-gray-500">.50</span>

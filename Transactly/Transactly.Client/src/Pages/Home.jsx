@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
+import Accounts from "../Components/Accounts";
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -44,8 +45,8 @@ const Home = () => {
             </button>
             <span className="text-xl font-semibold">Dashboard</span>
           </div>
-
           <Header />
+          <Accounts />
         </div>
       </div>
     </React.Fragment>
