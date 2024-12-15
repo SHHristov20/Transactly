@@ -3,13 +3,19 @@ import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import Accounts from "../Components/Accounts/Accounts";
 import Transactions from "../Components/Transactions/Transactions";
+import Deposit from "../Components/Deposit";
 
 const Home = () => {
   const [tab, setTab] = useState("Accounts");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDepositOpen, setIsDepositOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const toggleDeposit = () => {
+    setIsDepositOpen(!isDepositOpen);
   };
 
   return (
@@ -47,12 +53,14 @@ const Home = () => {
             </button>
             <span className="text-xl font-semibold">Dashboard</span>
           </div>
-          <Header tab={tab} setTab={setTab} />
+          <Header tab={tab} setTab={setTab} toggleDeposit={toggleDeposit} />
 
           {tab === "Accounts" && <Accounts />}
           {tab === "Transactions" && <Transactions />}
         </div>
       </div>
+
+      {isDepositOpen && <Deposit toggleDeposit={toggleDeposit} />}
     </React.Fragment>
   );
 };

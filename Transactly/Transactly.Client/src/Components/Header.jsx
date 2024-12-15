@@ -14,7 +14,10 @@ const Header = (props) => {
           </h1>
 
           <div className="flex gap-x-5">
-            <div className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300">
+            <div
+              className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300"
+              onClick={props.toggleDeposit}
+            >
               <FaPlus />
             </div>
             <div className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300">
