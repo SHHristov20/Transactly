@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.Sockets;
+using Transactly.Data.Interfaces;
 
 namespace Transactly.Data.Models
 {
-    public class User
+    public class User : IBaseModel
     {
         public int Id { get; set; }
 
