@@ -25,5 +25,9 @@ namespace Transactly.Data.Models
         [Required]
         public int CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
+
+        public ICollection<Transaction> IncomingTransactions { get; set; } = null!;
+        public ICollection<Transaction> OutgoingTransactions { get; set; } = null!;
+
     }
 }
