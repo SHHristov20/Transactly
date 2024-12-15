@@ -4,7 +4,7 @@ import { FaArrowsRotate } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <React.Fragment>
       <div className="p-6 overflow-y-auto space-y-3">
@@ -31,13 +31,29 @@ const Header = () => {
         <p>Total balance in base currency of USD.</p>
 
         <div className="flex justify-between md:justify-start md:gap-x-10 border-b-[2px] py-2">
-          <h1 className="px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer">
+          <h1
+            className={`px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer ${
+              props.tab === "Accounts" ? "border-pink-400" : ""
+            }`}
+            onClick={props.setTab.bind(this, "Accounts")}
+          >
             Accounts
           </h1>
-          <h1 className="px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer">
+
+          <h1
+            className={`px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer ${
+              props.tab === "Summary" ? "border-pink-400" : ""
+            }`}
+            onClick={props.setTab.bind(this, "Summary")}
+          >
             Summary
           </h1>
-          <h1 className="px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer">
+          <h1
+            className={`px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer ${
+              props.tab === "Transactions" ? "border-pink-400" : ""
+            }`}
+            onClick={props.setTab.bind(this, "Transactions")}
+          >
             Transactions
           </h1>
         </div>

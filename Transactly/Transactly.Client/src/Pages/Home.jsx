@@ -4,6 +4,7 @@ import Sidebar from "../Components/Sidebar";
 import Accounts from "../Components/Accounts";
 
 const Home = () => {
+  const [tab, setTab] = useState("Accounts");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -45,8 +46,9 @@ const Home = () => {
             </button>
             <span className="text-xl font-semibold">Dashboard</span>
           </div>
-          <Header />
-          <Accounts />
+          <Header tab={tab} setTab={setTab} />
+
+          {tab === "Accounts" && <Accounts />}
         </div>
       </div>
     </React.Fragment>
