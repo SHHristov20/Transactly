@@ -20,6 +20,14 @@ namespace Transactly.Server.Controllers
 
         public async Task<IActionResult> Create([FromBody] CreateAccountDTO model)
         {
+            IEnumerable<Account> accounts = await _accountService.GetAccountsByUserId(model.UserId);
+            foreach (Account acc in accounts)
+            {
+                if (acc.CurrencyId == model.CurrencyId)
+                {
+                    return BadRequest(new { message = $"Account in ${acc.Currency.CurrencyName} already exists!", errorCode = 400 });
+                }
+            }
             Random random = new();
             string accountNumber = "";
             for (int i = 0; i < 16; i++)
