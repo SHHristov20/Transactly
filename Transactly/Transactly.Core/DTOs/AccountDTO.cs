@@ -11,4 +11,13 @@ namespace Transactly.Core.DTOs
         public int UserId { get; set; }
         public int CurrencyId { get; set; }
     }
+
+    public class DepositFundsDTO
+    {
+        public int AccountId { get; set; }
+        public decimal Amount { get; set; }
+        public string? Reason { get; set; }
+        public string CardNumber { get; set; } = null!;
+        public string ExpiryDate { get; set; } = null!;
+    }
 }
