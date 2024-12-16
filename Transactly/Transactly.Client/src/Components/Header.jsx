@@ -3,14 +3,21 @@ import { FaPlus } from "react-icons/fa6";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
+import { useUserContext } from "./Context/UserContext";
 
 const Header = (props) => {
+  const { userObject } = useUserContext();
+
   return (
     <React.Fragment>
       <div className="p-6 space-y-3">
         <div className="flex flex-col md:flex-row justify-between">
           <h1 className="text-4xl font-bold mb-4">
-            $230,630<span className="text-gray-500">.50</span>
+            BGN{" "}
+            {userObject.accounts
+              .map((account) => account.balance)
+              .reduce((a, b) => a + b, 0)
+              .toFixed(2)}
           </h1>
 
           <div className="flex gap-x-5">
@@ -31,7 +38,7 @@ const Header = (props) => {
             </div>
           </div>
         </div>
-        <p>Total balance in base currency of USD.</p>
+        <p>Total balance in base currency of BGN.</p>
 
         <div className="flex justify-between md:justify-start md:gap-x-10 border-b-[2px] py-2">
           <h1

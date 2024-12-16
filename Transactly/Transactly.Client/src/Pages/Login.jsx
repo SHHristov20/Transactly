@@ -36,6 +36,7 @@ const Login = () => {
           />
           <input
             placeholder="Password"
+            type="password"
             className="border-b-[1px] focus:outline-none py-2"
             ref={passwordRef}
           />

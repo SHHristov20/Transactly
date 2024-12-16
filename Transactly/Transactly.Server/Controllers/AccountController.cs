@@ -156,7 +156,7 @@ namespace Transactly.Server.Controllers
                 IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
                 foreach (Transaction trans in accTransactions)
                 {
-                    if(trans.FromAccountId == acc.Id ||  trans.ToAccountId == acc.Id)
+                    if (trans.FromAccountId == acc.Id || trans.ToAccountId == acc.Id)
                     {
                         transactions.Add(trans);
                     }
@@ -213,3 +213,4 @@ namespace Transactly.Server.Controllers
             return Ok(transactions);
         }
     }
+}

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Account from "./Account";
+import { useUserContext } from "../Context/UserContext";
 import NewAccount from "./NewAccount";
 
 const Accounts = () => {
+  const { userObject } = useUserContext();
   const [toggleNewAccount, setToggleNewAccount] = useState(false);
 
   const handleToggleNewAccount = () => {
@@ -25,21 +27,17 @@ const Accounts = () => {
         </div>
 
         <div className="md:flex md:flex-wrap gap-x-5 justify-between">
-          <Account
-            currency={"British pounds"}
-            symbol={"GBP"}
-            ammount={"999.99"}
-          />
-          <Account
-            currency={"British pounds"}
-            symbol={"GBP"}
-            ammount={"999.99"}
-          />
-          <Account
-            currency={"British pounds"}
-            symbol={"GBP"}
-            ammount={"999.99"}
-          />
+          {userObject.accounts.map((account) => {
+            return (
+              <Account
+                key={account.id}
+                currency={account.currency.currencyName}
+                code={account.currency.currencyCode}
+                symbol={account.currency.currencySymbol}
+                ammount={account.balance}
+              />
+            );
+          })}
         </div>
       </div>
 
