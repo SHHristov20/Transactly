@@ -7,6 +7,7 @@ import Deposit from "../Components/Deposit";
 import Transfer from "../Components/Transfer";
 import Receive from "../Components/Receive";
 import Exchange from "../Components/Exchange";
+import Settings from "../Components/Settings";
 
 const Home = () => {
   const [tab, setTab] = useState("Accounts");
@@ -15,6 +16,7 @@ const Home = () => {
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isReceiveOpen, setIsReceiveOpen] = useState(false);
   const [isExchangeOpen, setIsExchangeOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -36,6 +38,10 @@ const Home = () => {
     setIsExchangeOpen(!isExchangeOpen);
   };
 
+  const toggleSettings = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+  };
+
   return (
     <React.Fragment>
       <div className="h-screen flex overflow-hidden">
@@ -46,7 +52,10 @@ const Home = () => {
           ></div>
         )}
 
-        <Sidebar isSidebarOpen={isSidebarOpen} />
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          toggleSettings={toggleSettings}
+        />
 
         <div className="flex-1 flex flex-col bg-gray-100">
           <div className="bg-white shadow-md p-4 flex items-center justify-between lg:hidden">
@@ -89,6 +98,7 @@ const Home = () => {
       {isTransferOpen && <Transfer toggleTransfer={toggleTransfer} />}
       {isReceiveOpen && <Receive toggleReceive={toggleReceive} />}
       {isExchangeOpen && <Exchange toggleExchange={toggleExchange} />}
+      {isSettingsOpen && <Settings toggleSettings={toggleSettings} />}
     </React.Fragment>
   );
 };

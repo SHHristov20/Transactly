@@ -32,7 +32,10 @@ const Sidebar = (props) => {
           <h1 className="transition-colors duration-300 px-8 py-3 border-l-[4px] hover:border-pink-400 cursor-pointer">
             Cards
           </h1>
-          <h1 className="transition-colors duration-300 px-8 py-3 border-l-[4px] hover:border-pink-400 cursor-pointer">
+          <h1
+            className="transition-colors duration-300 px-8 py-3 border-l-[4px] hover:border-pink-400 cursor-pointer"
+            onClick={props.toggleSettings}
+          >
             Settings
           </h1>
           <h1
