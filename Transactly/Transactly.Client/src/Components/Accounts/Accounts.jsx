@@ -32,6 +32,7 @@ const Accounts = () => {
               <Account
                 key={account.id}
                 currency={account.currency.currencyName}
+                number={account.accountNumber}
                 code={account.currency.currencyCode}
                 symbol={account.currency.currencySymbol}
                 ammount={account.balance}

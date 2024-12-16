@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Transaction from "./Transaction";
+import axios from "axios";
+import { useUserContext } from "../Context/UserContext";
 
 const Transactions = () => {
+  const { token } = useUserContext();
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5165/Account/GetAllTransactions?token=${token}`)
+      .then((res) => {
+        console.log(res.data);
+        setTransactions(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <React.Fragment>
       <div className="p-6 overflow-y-scroll mb-10">
@@ -12,17 +29,9 @@ const Transactions = () => {
 
         <div>
           <div>Today</div>
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
-          <Transaction />
+          {transactions.map((transaction) => (
+            <Transaction key={transaction.id} transaction={transaction} />
+          ))}
         </div>
       </div>
     </React.Fragment>
