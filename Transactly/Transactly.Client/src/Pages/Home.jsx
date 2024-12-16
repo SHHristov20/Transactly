@@ -5,12 +5,14 @@ import Accounts from "../Components/Accounts/Accounts";
 import Transactions from "../Components/Transactions/Transactions";
 import Deposit from "../Components/Deposit";
 import Transfer from "../Components/Transfer";
+import Receive from "../Components/Receive";
 
 const Home = () => {
   const [tab, setTab] = useState("Accounts");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [isReceiveOpen, setIsReceiveOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -22,6 +24,10 @@ const Home = () => {
 
   const toggleTransfer = () => {
     setIsTransferOpen(!isTransferOpen);
+  };
+
+  const toggleReceive = () => {
+    setIsReceiveOpen(!isReceiveOpen);
   };
 
   return (
@@ -64,6 +70,7 @@ const Home = () => {
             setTab={setTab}
             toggleDeposit={toggleDeposit}
             toggleTransfer={toggleTransfer}
+            toggleReceive={toggleReceive}
           />
 
           {tab === "Accounts" && <Accounts />}
@@ -73,6 +80,7 @@ const Home = () => {
 
       {isDepositOpen && <Deposit toggleDeposit={toggleDeposit} />}
       {isTransferOpen && <Transfer toggleTransfer={toggleTransfer} />}
+      {isReceiveOpen && <Receive toggleReceive={toggleReceive} />}
     </React.Fragment>
   );
 };
