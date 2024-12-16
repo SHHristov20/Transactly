@@ -141,5 +141,75 @@ namespace Transactly.Server.Controllers
             return Ok(accounts);
         }
 
+        [HttpGet(Name = "GetAllTransactions")]
+        public async Task<IActionResult> GetAllTransactions([FromQuery] Guid token)
+        {
+            User? user = await _userService.GetUserByToken(token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            IEnumerable<Account> accounts = await _accountService.GetAccountsByUserId(user.Id);
+            List<Transaction> transactions = new();
+            foreach (Account acc in accounts)
+            {
+                IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
+                foreach (Transaction trans in accTransactions)
+                {
+                    if(trans.FromAccountId == acc.Id ||  trans.ToAccountId == acc.Id)
+                    {
+                        transactions.Add(trans);
+                    }
+                }
+            }
+            return Ok(transactions);
+        }
+
+        [HttpGet(Name = "GetAllIncomingTransactions")]
+        public async Task<IActionResult> GetAllIncomingTransactions([FromQuery] Guid token)
+        {
+            User? user = await _userService.GetUserByToken(token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            IEnumerable<Account> accounts = await _accountService.GetAccountsByUserId(user.Id);
+            List<Transaction> transactions = new();
+            foreach (Account acc in accounts)
+            {
+                IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
+                foreach (Transaction transaction in accTransactions)
+                {
+                    if (transaction.ToAccountId == acc.Id)
+                    {
+                        transactions.Add(transaction);
+                    }
+                }
+            }
+            return Ok(transactions);
+        }
+
+        [HttpGet(Name = "GetAllOutgoingTransactions")]
+        public async Task<IActionResult> GetAllOutgoingTransactions([FromQuery] Guid token)
+        {
+            User? user = await _userService.GetUserByToken(token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            IEnumerable<Account> accounts = await _accountService.GetAccountsByUserId(user.Id);
+            List<Transaction> transactions = new();
+            foreach (Account acc in accounts)
+            {
+                IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
+                foreach (Transaction transaction in accTransactions)
+                {
+                    if (transaction.FromAccountId == acc.Id)
+                    {
+                        transactions.Add(transaction);
+                    }
+                }
+            }
+            return Ok(transactions);
+        }
     }
-}
