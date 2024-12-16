@@ -9,12 +9,12 @@ namespace Transactly.Data.Data.Repositories
         private readonly TransactlyDbContext _dbContext = dbContext;
         public async Task<IEnumerable<ExchangeRate>> GetAllExchangeRatesByCurrencyId(int id)
         {
-            return await _dbContext.ExchangeRates.Where(e => e.CurrencyId == id).ToListAsync();
+            return await _dbContext.ExchangeRates.Where(e => e.BaseCurrencyId == id).ToListAsync();
         }
 
         public async Task<ExchangeRate?> GetExchangeRateByCurrencyIds(int baseId, int targetId)
         {
-            return await _dbContext.ExchangeRates.Where(e => e.CurrencyId == baseId && e.ExchangeCurrencyId == targetId).FirstOrDefaultAsync();
+            return await _dbContext.ExchangeRates.Where(e => e.BaseCurrencyId == baseId && e.TargetCurrencyId == targetId).FirstOrDefaultAsync();
         }
 
         public async Task<decimal> Exchange(decimal amount, int baseId, int targetId)

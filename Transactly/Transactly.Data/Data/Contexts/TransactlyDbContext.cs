@@ -87,15 +87,15 @@ namespace Transactly.Data.Data.Contexts
                 .HasForeignKey(c => c.AccountId);
 
             modelBuilder.Entity<ExchangeRate>()
-                .HasOne(er => er.Currency)
+                .HasOne(er => er.BaseCurrency)
                 .WithMany(c => c.ExchangeRates)
-                .HasForeignKey(er => er.CurrencyId)
+                .HasForeignKey(er => er.BaseCurrencyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ExchangeRate>()
-                .HasOne(er => er.ExchangeCurrency)
+                .HasOne(er => er.TargetCurrency)
                 .WithMany(c => c.ExchangeCurrencyRates)
-                .HasForeignKey(er => er.ExchangeCurrencyId)
+                .HasForeignKey(er => er.TargetCurrencyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             SeedData(modelBuilder);
@@ -135,36 +135,36 @@ namespace Transactly.Data.Data.Contexts
         private void SeedExchangeRates(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExchangeRate>().HasData(
-                new ExchangeRate { Id = 1, CurrencyId = 1, ExchangeCurrencyId = 2, Rate = 0.54m },
-                new ExchangeRate { Id = 2, CurrencyId = 1, ExchangeCurrencyId = 3, Rate = 0.51m },
-                new ExchangeRate { Id = 3, CurrencyId = 1, ExchangeCurrencyId = 4, Rate = 0.42m },
-                new ExchangeRate { Id = 4, CurrencyId = 1, ExchangeCurrencyId = 5, Rate = 82.66m },
-                new ExchangeRate { Id = 5, CurrencyId = 1, ExchangeCurrencyId = 6, Rate = 0.84m },
-                new ExchangeRate { Id = 6, CurrencyId = 2, ExchangeCurrencyId = 1, Rate = 1.86m },
-                new ExchangeRate { Id = 7, CurrencyId = 2, ExchangeCurrencyId = 3, Rate = 0.95m },
-                new ExchangeRate { Id = 8, CurrencyId = 2, ExchangeCurrencyId = 4, Rate = 0.79m },
-                new ExchangeRate { Id = 9, CurrencyId = 2, ExchangeCurrencyId = 5, Rate = 153.86m },
-                new ExchangeRate { Id = 10, CurrencyId = 2, ExchangeCurrencyId = 6, Rate = 1.57m },
-                new ExchangeRate { Id = 11, CurrencyId = 3, ExchangeCurrencyId = 1, Rate = 1.96m },
-                new ExchangeRate { Id = 12, CurrencyId = 3, ExchangeCurrencyId = 2, Rate = 1.05m },
-                new ExchangeRate { Id = 13, CurrencyId = 3, ExchangeCurrencyId = 4, Rate = 0.83m },
-                new ExchangeRate { Id = 14, CurrencyId = 3, ExchangeCurrencyId = 5, Rate = 161.67m },
-                new ExchangeRate { Id = 15, CurrencyId = 3, ExchangeCurrencyId = 6, Rate = 1.65m },
-                new ExchangeRate { Id = 16, CurrencyId = 4, ExchangeCurrencyId = 1, Rate = 2.36m },
-                new ExchangeRate { Id = 17, CurrencyId = 4, ExchangeCurrencyId = 2, Rate = 1.26m },
-                new ExchangeRate { Id = 18, CurrencyId = 4, ExchangeCurrencyId = 3, Rate = 1.20m },
-                new ExchangeRate { Id = 19, CurrencyId = 4, ExchangeCurrencyId = 5, Rate = 194.30m },
-                new ExchangeRate { Id = 20, CurrencyId = 4, ExchangeCurrencyId = 6, Rate = 1.98m },
-                new ExchangeRate { Id = 21, CurrencyId = 5, ExchangeCurrencyId = 1, Rate = 0.012m },
-                new ExchangeRate { Id = 22, CurrencyId = 5, ExchangeCurrencyId = 2, Rate = 0.0065m },
-                new ExchangeRate { Id = 23, CurrencyId = 5, ExchangeCurrencyId = 3, Rate = 0.0062m },
-                new ExchangeRate { Id = 24, CurrencyId = 5, ExchangeCurrencyId = 4, Rate = 0.0052m },
-                new ExchangeRate { Id = 25, CurrencyId = 5, ExchangeCurrencyId = 6, Rate = 0.01m },
-                new ExchangeRate { Id = 26, CurrencyId = 6, ExchangeCurrencyId = 1, Rate = 1.18m },
-                new ExchangeRate { Id = 27, CurrencyId = 6, ExchangeCurrencyId = 2, Rate = 0.64m },
-                new ExchangeRate { Id = 28, CurrencyId = 6, ExchangeCurrencyId = 3, Rate = 0.61m },
-                new ExchangeRate { Id = 29, CurrencyId = 6, ExchangeCurrencyId = 4, Rate = 0.5m },
-                new ExchangeRate { Id = 30, CurrencyId = 6, ExchangeCurrencyId = 5, Rate = 97.88m }
+                new ExchangeRate { Id = 1, BaseCurrencyId = 1, TargetCurrencyId = 2, Rate = 0.54m },
+                new ExchangeRate { Id = 2, BaseCurrencyId = 1, TargetCurrencyId = 3, Rate = 0.51m },
+                new ExchangeRate { Id = 3, BaseCurrencyId = 1, TargetCurrencyId = 4, Rate = 0.42m },
+                new ExchangeRate { Id = 4, BaseCurrencyId = 1, TargetCurrencyId = 5, Rate = 82.66m },
+                new ExchangeRate { Id = 5, BaseCurrencyId = 1, TargetCurrencyId = 6, Rate = 0.84m },
+                new ExchangeRate { Id = 6, BaseCurrencyId = 2, TargetCurrencyId = 1, Rate = 1.86m },
+                new ExchangeRate { Id = 7, BaseCurrencyId = 2, TargetCurrencyId = 3, Rate = 0.95m },
+                new ExchangeRate { Id = 8, BaseCurrencyId = 2, TargetCurrencyId = 4, Rate = 0.79m },
+                new ExchangeRate { Id = 9, BaseCurrencyId = 2, TargetCurrencyId = 5, Rate = 153.86m },
+                new ExchangeRate { Id = 10, BaseCurrencyId = 2, TargetCurrencyId = 6, Rate = 1.57m },
+                new ExchangeRate { Id = 11, BaseCurrencyId = 3, TargetCurrencyId = 1, Rate = 1.96m },
+                new ExchangeRate { Id = 12, BaseCurrencyId = 3, TargetCurrencyId = 2, Rate = 1.05m },
+                new ExchangeRate { Id = 13, BaseCurrencyId = 3, TargetCurrencyId = 4, Rate = 0.83m },
+                new ExchangeRate { Id = 14, BaseCurrencyId = 3, TargetCurrencyId = 5, Rate = 161.67m },
+                new ExchangeRate { Id = 15, BaseCurrencyId = 3, TargetCurrencyId = 6, Rate = 1.65m },
+                new ExchangeRate { Id = 16, BaseCurrencyId = 4, TargetCurrencyId = 1, Rate = 2.36m },
+                new ExchangeRate { Id = 17, BaseCurrencyId = 4, TargetCurrencyId = 2, Rate = 1.26m },
+                new ExchangeRate { Id = 18, BaseCurrencyId = 4, TargetCurrencyId = 3, Rate = 1.20m },
+                new ExchangeRate { Id = 19, BaseCurrencyId = 4, TargetCurrencyId = 5, Rate = 194.30m },
+                new ExchangeRate { Id = 20, BaseCurrencyId = 4, TargetCurrencyId = 6, Rate = 1.98m },
+                new ExchangeRate { Id = 21, BaseCurrencyId = 5, TargetCurrencyId = 1, Rate = 0.012m },
+                new ExchangeRate { Id = 22, BaseCurrencyId = 5, TargetCurrencyId = 2, Rate = 0.0065m },
+                new ExchangeRate { Id = 23, BaseCurrencyId = 5, TargetCurrencyId = 3, Rate = 0.0062m },
+                new ExchangeRate { Id = 24, BaseCurrencyId = 5, TargetCurrencyId = 4, Rate = 0.0052m },
+                new ExchangeRate { Id = 25, BaseCurrencyId = 5, TargetCurrencyId = 6, Rate = 0.01m },
+                new ExchangeRate { Id = 26, BaseCurrencyId = 6, TargetCurrencyId = 1, Rate = 1.18m },
+                new ExchangeRate { Id = 27, BaseCurrencyId = 6, TargetCurrencyId = 2, Rate = 0.64m },
+                new ExchangeRate { Id = 28, BaseCurrencyId = 6, TargetCurrencyId = 3, Rate = 0.61m },
+                new ExchangeRate { Id = 29, BaseCurrencyId = 6, TargetCurrencyId = 4, Rate = 0.5m },
+                new ExchangeRate { Id = 30, BaseCurrencyId = 6, TargetCurrencyId = 5, Rate = 97.88m }
             );
         }
     }

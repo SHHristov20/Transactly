@@ -18,6 +18,9 @@ namespace Transactly.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -165,20 +168,20 @@ namespace Transactly.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExchangeCurrencyId")
+                    b.Property<int>("BaseCurrencyId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18, 4)");
 
+                    b.Property<int>("TargetCurrencyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrencyId");
+                    b.HasIndex("BaseCurrencyId");
 
-                    b.HasIndex("ExchangeCurrencyId");
+                    b.HasIndex("TargetCurrencyId");
 
                     b.ToTable("ExchangeRates");
 
@@ -186,212 +189,212 @@ namespace Transactly.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CurrencyId = 1,
-                            ExchangeCurrencyId = 2,
-                            Rate = 0.54m
+                            BaseCurrencyId = 1,
+                            Rate = 0.54m,
+                            TargetCurrencyId = 2
                         },
                         new
                         {
                             Id = 2,
-                            CurrencyId = 1,
-                            ExchangeCurrencyId = 3,
-                            Rate = 0.51m
+                            BaseCurrencyId = 1,
+                            Rate = 0.51m,
+                            TargetCurrencyId = 3
                         },
                         new
                         {
                             Id = 3,
-                            CurrencyId = 1,
-                            ExchangeCurrencyId = 4,
-                            Rate = 0.42m
+                            BaseCurrencyId = 1,
+                            Rate = 0.42m,
+                            TargetCurrencyId = 4
                         },
                         new
                         {
                             Id = 4,
-                            CurrencyId = 1,
-                            ExchangeCurrencyId = 5,
-                            Rate = 82.66m
+                            BaseCurrencyId = 1,
+                            Rate = 82.66m,
+                            TargetCurrencyId = 5
                         },
                         new
                         {
                             Id = 5,
-                            CurrencyId = 1,
-                            ExchangeCurrencyId = 6,
-                            Rate = 0.84m
+                            BaseCurrencyId = 1,
+                            Rate = 0.84m,
+                            TargetCurrencyId = 6
                         },
                         new
                         {
                             Id = 6,
-                            CurrencyId = 2,
-                            ExchangeCurrencyId = 1,
-                            Rate = 1.86m
+                            BaseCurrencyId = 2,
+                            Rate = 1.86m,
+                            TargetCurrencyId = 1
                         },
                         new
                         {
                             Id = 7,
-                            CurrencyId = 2,
-                            ExchangeCurrencyId = 3,
-                            Rate = 0.95m
+                            BaseCurrencyId = 2,
+                            Rate = 0.95m,
+                            TargetCurrencyId = 3
                         },
                         new
                         {
                             Id = 8,
-                            CurrencyId = 2,
-                            ExchangeCurrencyId = 4,
-                            Rate = 0.79m
+                            BaseCurrencyId = 2,
+                            Rate = 0.79m,
+                            TargetCurrencyId = 4
                         },
                         new
                         {
                             Id = 9,
-                            CurrencyId = 2,
-                            ExchangeCurrencyId = 5,
-                            Rate = 153.86m
+                            BaseCurrencyId = 2,
+                            Rate = 153.86m,
+                            TargetCurrencyId = 5
                         },
                         new
                         {
                             Id = 10,
-                            CurrencyId = 2,
-                            ExchangeCurrencyId = 6,
-                            Rate = 1.57m
+                            BaseCurrencyId = 2,
+                            Rate = 1.57m,
+                            TargetCurrencyId = 6
                         },
                         new
                         {
                             Id = 11,
-                            CurrencyId = 3,
-                            ExchangeCurrencyId = 1,
-                            Rate = 1.96m
+                            BaseCurrencyId = 3,
+                            Rate = 1.96m,
+                            TargetCurrencyId = 1
                         },
                         new
                         {
                             Id = 12,
-                            CurrencyId = 3,
-                            ExchangeCurrencyId = 2,
-                            Rate = 1.05m
+                            BaseCurrencyId = 3,
+                            Rate = 1.05m,
+                            TargetCurrencyId = 2
                         },
                         new
                         {
                             Id = 13,
-                            CurrencyId = 3,
-                            ExchangeCurrencyId = 4,
-                            Rate = 0.83m
+                            BaseCurrencyId = 3,
+                            Rate = 0.83m,
+                            TargetCurrencyId = 4
                         },
                         new
                         {
                             Id = 14,
-                            CurrencyId = 3,
-                            ExchangeCurrencyId = 5,
-                            Rate = 161.67m
+                            BaseCurrencyId = 3,
+                            Rate = 161.67m,
+                            TargetCurrencyId = 5
                         },
                         new
                         {
                             Id = 15,
-                            CurrencyId = 3,
-                            ExchangeCurrencyId = 6,
-                            Rate = 1.65m
+                            BaseCurrencyId = 3,
+                            Rate = 1.65m,
+                            TargetCurrencyId = 6
                         },
                         new
                         {
                             Id = 16,
-                            CurrencyId = 4,
-                            ExchangeCurrencyId = 1,
-                            Rate = 2.36m
+                            BaseCurrencyId = 4,
+                            Rate = 2.36m,
+                            TargetCurrencyId = 1
                         },
                         new
                         {
                             Id = 17,
-                            CurrencyId = 4,
-                            ExchangeCurrencyId = 2,
-                            Rate = 1.26m
+                            BaseCurrencyId = 4,
+                            Rate = 1.26m,
+                            TargetCurrencyId = 2
                         },
                         new
                         {
                             Id = 18,
-                            CurrencyId = 4,
-                            ExchangeCurrencyId = 3,
-                            Rate = 1.20m
+                            BaseCurrencyId = 4,
+                            Rate = 1.20m,
+                            TargetCurrencyId = 3
                         },
                         new
                         {
                             Id = 19,
-                            CurrencyId = 4,
-                            ExchangeCurrencyId = 5,
-                            Rate = 194.30m
+                            BaseCurrencyId = 4,
+                            Rate = 194.30m,
+                            TargetCurrencyId = 5
                         },
                         new
                         {
                             Id = 20,
-                            CurrencyId = 4,
-                            ExchangeCurrencyId = 6,
-                            Rate = 1.98m
+                            BaseCurrencyId = 4,
+                            Rate = 1.98m,
+                            TargetCurrencyId = 6
                         },
                         new
                         {
                             Id = 21,
-                            CurrencyId = 5,
-                            ExchangeCurrencyId = 1,
-                            Rate = 0.012m
+                            BaseCurrencyId = 5,
+                            Rate = 0.012m,
+                            TargetCurrencyId = 1
                         },
                         new
                         {
                             Id = 22,
-                            CurrencyId = 5,
-                            ExchangeCurrencyId = 2,
-                            Rate = 0.0065m
+                            BaseCurrencyId = 5,
+                            Rate = 0.0065m,
+                            TargetCurrencyId = 2
                         },
                         new
                         {
                             Id = 23,
-                            CurrencyId = 5,
-                            ExchangeCurrencyId = 3,
-                            Rate = 0.0062m
+                            BaseCurrencyId = 5,
+                            Rate = 0.0062m,
+                            TargetCurrencyId = 3
                         },
                         new
                         {
                             Id = 24,
-                            CurrencyId = 5,
-                            ExchangeCurrencyId = 4,
-                            Rate = 0.0052m
+                            BaseCurrencyId = 5,
+                            Rate = 0.0052m,
+                            TargetCurrencyId = 4
                         },
                         new
                         {
                             Id = 25,
-                            CurrencyId = 5,
-                            ExchangeCurrencyId = 6,
-                            Rate = 0.01m
+                            BaseCurrencyId = 5,
+                            Rate = 0.01m,
+                            TargetCurrencyId = 6
                         },
                         new
                         {
                             Id = 26,
-                            CurrencyId = 6,
-                            ExchangeCurrencyId = 1,
-                            Rate = 1.18m
+                            BaseCurrencyId = 6,
+                            Rate = 1.18m,
+                            TargetCurrencyId = 1
                         },
                         new
                         {
                             Id = 27,
-                            CurrencyId = 6,
-                            ExchangeCurrencyId = 2,
-                            Rate = 0.64m
+                            BaseCurrencyId = 6,
+                            Rate = 0.64m,
+                            TargetCurrencyId = 2
                         },
                         new
                         {
                             Id = 28,
-                            CurrencyId = 6,
-                            ExchangeCurrencyId = 3,
-                            Rate = 0.61m
+                            BaseCurrencyId = 6,
+                            Rate = 0.61m,
+                            TargetCurrencyId = 3
                         },
                         new
                         {
                             Id = 29,
-                            CurrencyId = 6,
-                            ExchangeCurrencyId = 4,
-                            Rate = 0.5m
+                            BaseCurrencyId = 6,
+                            Rate = 0.5m,
+                            TargetCurrencyId = 4
                         },
                         new
                         {
                             Id = 30,
-                            CurrencyId = 6,
-                            ExchangeCurrencyId = 5,
-                            Rate = 97.88m
+                            BaseCurrencyId = 6,
+                            Rate = 97.88m,
+                            TargetCurrencyId = 5
                         });
                 });
 
@@ -555,21 +558,21 @@ namespace Transactly.Data.Migrations
 
             modelBuilder.Entity("Transactly.Data.Models.ExchangeRate", b =>
                 {
-                    b.HasOne("Transactly.Data.Models.Currency", "Currency")
+                    b.HasOne("Transactly.Data.Models.Currency", "BaseCurrency")
                         .WithMany("ExchangeRates")
-                        .HasForeignKey("CurrencyId")
+                        .HasForeignKey("BaseCurrencyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Transactly.Data.Models.Currency", "ExchangeCurrency")
+                    b.HasOne("Transactly.Data.Models.Currency", "TargetCurrency")
                         .WithMany("ExchangeCurrencyRates")
-                        .HasForeignKey("ExchangeCurrencyId")
+                        .HasForeignKey("TargetCurrencyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Currency");
+                    b.Navigation("BaseCurrency");
 
-                    b.Navigation("ExchangeCurrency");
+                    b.Navigation("TargetCurrency");
                 });
 
             modelBuilder.Entity("Transactly.Data.Models.Transaction", b =>

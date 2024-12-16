@@ -14,11 +14,11 @@ namespace Transactly.Data.Models
         public decimal Rate { get; set; }
 
         [Required]
-        public int CurrencyId { get; set; }
-        public virtual Currency Currency { get; set; } = null!;
+        public int BaseCurrencyId { get; set; }
+        public virtual Currency BaseCurrency { get; set; } = null!;
 
         [Required]
-        public int ExchangeCurrencyId { get; set; }
-        public virtual Currency ExchangeCurrency { get; set; } = null!;
+        public int TargetCurrencyId { get; set; }
+        public virtual Currency TargetCurrency { get; set; } = null!;
     }
 }
