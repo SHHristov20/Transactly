@@ -365,6 +365,82 @@ namespace Transactly.Server.Controllers
             await _accountService.Create<Transaction>(transaction);
             return Ok();
         }
-    }
 
+        [HttpPost(Name = "ExchangeCurrency")]
+        public async Task<IActionResult> Exchange([FromBody] ExchangeCurrencyDTO model)
+        {
+            User? user = await _userService.GetUserByToken(model.Token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            if (model.Amount <= 0)
+            {
+                return BadRequest(new { message = "Amount must be greater than 0!", errorCode = 400 });
+            }
+            if (model.FromCurrencyId == model.ToCurrencyId)
+            {
+                return BadRequest(new { message = "Cannot exchange the same currency!", errorCode = 400 });
+            }
+            IEnumerable<Account> accounts = await _accountService.GetAccountsByUserId(user.Id);
+            Account sender = null!;
+            Account recipient = null!;
+            foreach (Account acc in accounts)
+            {
+                if (acc.CurrencyId == model.FromCurrencyId)
+                {
+                    sender = acc;
+                    break;
+                }
+            }
+            if (sender == null)
+            {
+                return BadRequest(new { message = "Account in base currency not found!", errorCode = 404 });
+            }
+            foreach (Account acc in accounts)
+            {
+                if (acc.CurrencyId == model.ToCurrencyId)
+                {
+                    recipient = acc;
+                    break;
+                }
+            }
+            if (recipient == null)
+            {
+                return BadRequest(new { message = "Account in target currency not found!", errorCode = 404 });
+            }
+            if (sender.Balance < model.Amount)
+            {
+                Transaction transaction = new()
+                {
+                    Amount = model.Amount,
+                    Date = DateTime.Now,
+                    FromAccountId = sender.Id,
+                    ToAccountId = recipient.Id,
+                    Reason = "Exchange",
+                    Status = false,
+                    TypeId = 4
+                };
+                await _accountService.Create<Transaction>(transaction);
+                return BadRequest(new { message = "Insufficient funds!", errorCode = 400 });
+            }
+            sender.Balance -= model.Amount;
+            decimal convertedAmount = await _currencyService.Exchange(model.Amount, model.FromCurrencyId, model.ToCurrencyId);
+            recipient.Balance += convertedAmount;
+            await _accountService.Update<Account>(sender);
+            await _accountService.Update<Account>(recipient);
+            Transaction t = new()
+            {
+                Amount = model.Amount,
+                Date = DateTime.Now,
+                FromAccountId = sender.Id,
+                ToAccountId = recipient.Id,
+                Reason = "Exchange",
+                Status = true,
+                TypeId = 4
+            };
+            await _accountService.Create<Transaction>(t);
+            return Ok();
+        }
+    }
 }
