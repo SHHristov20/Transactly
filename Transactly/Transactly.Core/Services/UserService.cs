@@ -21,6 +21,11 @@ namespace Transactly.Core.Services
         public async Task<User?> GetUserByToken(Guid token)
         {
             return await _userRepository.GetUserByToken(token);
-        }       
+        }
+
+        public async Task<User?> GetUserByUserTag(string userTag)
+        {
+            return await _userRepository.GetUserByUserTag(userTag);
+        }
     }
 }

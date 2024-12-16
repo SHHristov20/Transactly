@@ -21,4 +21,17 @@ namespace Transactly.Core.DTOs
         public string ExpiryDate { get; set; } = null!;
         public string CVV { get; set; } = null!;
     }
+
+    public class TransferFundsDTO
+    {
+        public Guid Token { get; set; }
+        public int FromAccountId { get; set; }
+        public string ToAccountNumber { get; set; } = null!;
+        public string ToEmail { get; set; } = null!;
+        public string ToPhoneNumber { get; set; } = null!;
+        public string ToUserTag { get; set; } = null!;
+        public decimal Amount { get; set; }
+        public string Reason { get; set; } = "Transfer";
+    }
+
 }

@@ -212,5 +212,124 @@ namespace Transactly.Server.Controllers
             }
             return Ok(transactions);
         }
+
+        [HttpPost(Name = "TransferFunds")]
+        public async Task<IActionResult> Transfer([FromBody] TransferFundsDTO model)
+        {
+            User? sender = await _userService.GetUserByToken(model.Token);
+            if (sender == null || sender.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            if (model.ToUserTag == null && model.ToAccountNumber == null && model.ToPhoneNumber == null && model.ToEmail == null)
+            {
+                return BadRequest(new { message = "Recipient details are missing!", errorCode = 400 });
+            }
+            Account? senderAccount = await _accountService.GetById<Account>(model.FromAccountId);
+            if (senderAccount == null)
+            {
+                return BadRequest(new { message = "Account not found!", errorCode = 404 });
+            }
+            if (senderAccount.UserId != sender.Id)
+            {
+                return BadRequest(new { message = "Account does not belong to user!", errorCode = 400 });
+            }
+            User? recipient = null;
+            Account? recipientAccount = null;
+            if (model.ToUserTag != null)
+            {
+                recipient = await _userService.GetUserByUserTag(model.ToUserTag);
+            }
+            else if (model.ToAccountNumber != null)
+            {
+                recipientAccount = await _accountService.GetAccountByNumber(model.ToAccountNumber);
+                if (recipientAccount == null)
+                {
+                    return BadRequest(new { message = "Recipient account not found!", errorCode = 404 });
+                }
+                recipient = await _userService.GetById<User>(recipientAccount.UserId);
+            }
+            else if (model.ToPhoneNumber != null)
+            {
+                recipient = await _userService.GetUserByPhoneNumber(model.ToPhoneNumber);
+            }
+            else
+            {
+                recipient = await _userService.GetUserByEmail(model.ToEmail);
+            }
+            if (recipient == null)
+            {
+                return BadRequest(new { message = "Recipient not found!", errorCode = 404 });
+            }
+            if (recipient.Id == sender.Id)
+            {
+                return BadRequest(new { message = "Cannot transfer funds to yourself!", errorCode = 400 });
+            }
+            else
+            {
+                IEnumerable<Account> recipientAccounts = await _accountService.GetAccountsByUserId(recipient.Id);
+                if (recipientAccounts.Count() == 0)
+                {
+                    return BadRequest(new { message = "Recipient has no accounts!", errorCode = 400 });
+                }
+                foreach (Account account in recipientAccounts)
+                {
+                    if (account.CurrencyId == senderAccount.CurrencyId)
+                    {
+                        recipientAccount = account;
+                        break;
+                    }
+                }
+                if (recipientAccount == null)
+                {
+                    recipientAccount = recipientAccounts.First();
+                }
+            }
+            if (model.Amount <= 0)
+            {
+                return BadRequest(new { message = "Amount must be greater than 0!", errorCode = 400 });
+            }
+            if (senderAccount.Balance < model.Amount)
+            {
+                Transaction t = new()
+                {
+                    Amount = model.Amount,
+                    Date = DateTime.Now,
+                    FromAccountId = senderAccount.Id,
+                    ToAccountId = recipientAccount.Id,
+                    Reason = model.Reason,
+                    Status = false,
+                    TypeId = 2
+                };
+                await _accountService.Create<Transaction>(t);
+                return BadRequest(new { message = "Insufficient funds!", errorCode = 400 });
+            }
+            senderAccount.Balance -= model.Amount;
+            if (senderAccount.CurrencyId != recipientAccount.CurrencyId)
+            {
+                decimal convertedAmount = await _currencyService.Exchange(model.Amount, senderAccount.CurrencyId, recipientAccount.CurrencyId);
+                recipientAccount.Balance += convertedAmount;
+            }
+            else
+            {
+                recipientAccount.Balance += model.Amount;
+            }
+            await _accountService.Update<Account>(senderAccount);
+            await _accountService.Update<Account>(recipientAccount);
+            Transaction transaction = new()
+            {
+                Amount = model.Amount,
+                Date = DateTime.Now,
+                FromAccountId = senderAccount.Id,
+                ToAccountId = recipientAccount.Id,
+                Reason = model.Reason,
+                Status = true,
+                TypeId = 2
+            };
+            await _accountService.Create<Transaction>(transaction);
+            return Ok();
+            //return await _accountService.TransferFunds(model);
+        }
     }
+
 }

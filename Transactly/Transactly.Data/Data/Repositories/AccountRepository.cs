@@ -13,5 +13,10 @@ namespace Transactly.Data.Data.Repositories
             return await _dbContext.Accounts.Where(a => a.UserId == id).ToListAsync();
         }
 
+        public async Task<Account?> GetAccountByNumber(string accountNumber)
+        {
+            return await _dbContext.Accounts.Where(a => a.AccountNumber == accountNumber).FirstOrDefaultAsync();
+        }
+
     }
 }

@@ -12,5 +12,10 @@ namespace Transactly.Core.Services
         {
             return await _accountRepository.GetAccountsByUserId(id);
         }
+
+        public async Task<Account?> GetAccountByNumber(string accountNumber)
+        {
+            return await _accountRepository.GetAccountByNumber(accountNumber);
+        }
     }
 }
