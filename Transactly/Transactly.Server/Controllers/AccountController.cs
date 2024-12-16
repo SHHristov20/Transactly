@@ -333,7 +333,7 @@ namespace Transactly.Server.Controllers
                     Date = DateTime.Now,
                     FromAccountId = senderAccount.Id,
                     ToAccountId = recipientAccount.Id,
-                    Reason = model.Reason,
+                    Reason = model.Reason ?? "Transfer",
                     Status = false,
                     TypeId = 2
                 };
@@ -358,7 +358,7 @@ namespace Transactly.Server.Controllers
                 Date = DateTime.Now,
                 FromAccountId = senderAccount.Id,
                 ToAccountId = recipientAccount.Id,
-                Reason = model.Reason,
+                Reason = model.Reason ?? "Transfer",
                 Status = true,
                 TypeId = 2
             };

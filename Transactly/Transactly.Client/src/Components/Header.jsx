@@ -33,7 +33,10 @@ const Header = (props) => {
             <div className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300">
               <FaArrowLeft />
             </div>
-            <div className="bg-pink-400 w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-pink-500 transition-colors duration-300">
+            <div
+              className="bg-pink-400 w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-pink-500 transition-colors duration-300"
+              onClick={props.toggleTransfer}
+            >
               <FaArrowRight />
             </div>
           </div>
