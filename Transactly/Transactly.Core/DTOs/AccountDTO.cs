@@ -22,6 +22,12 @@ namespace Transactly.Core.DTOs
         public string CVV { get; set; } = null!;
     }
 
+    public class CreateCardDTO
+    {
+        public Guid Token { get; set; }
+        public int AccountId { get; set; }
+    }
+
     public class TransferFundsDTO
     {
         public Guid Token { get; set; }

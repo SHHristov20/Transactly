@@ -213,6 +213,39 @@ namespace Transactly.Server.Controllers
             return Ok(transactions);
         }
 
+        [HttpPost(Name = "CreateCard")]
+        public async Task<IActionResult> CreateCard([FromBody] CreateCardDTO model)
+        {
+            User? user = await _userService.GetUserByToken(model.Token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            Account? account = await _accountService.GetById<Account>(model.AccountId);
+            if (account == null)
+            {
+                return BadRequest(new { message = "Account not found!", errorCode = 404 });
+            }
+            if (account.UserId != user.Id)
+            {
+                return BadRequest(new { message = "Account does not belong to user!", errorCode = 400 });
+            }
+            if (account.Cards.Count > 0)
+            {
+                return BadRequest(new { message = "Account already has a card!", errorCode = 400 });
+            }
+            string expiryDate = DateTime.Now.AddYears(5).ToString("MM/yy");
+            Card card = new()
+            {
+                AccountId = account.Id,
+                CardNumber = CardValidator.GenerateValidCardNumber(),
+                ExpiryDate = expiryDate,
+                CVV = CardValidator.GenerateRandomDigits(3)
+            };
+            bool result = await _cardService.Create<Card>(card);
+            return result ? Ok() : BadRequest(new { message = "Failed to create card!", errorCode = 500 });
+        }
+
         [HttpPost(Name = "TransferFunds")]
         public async Task<IActionResult> Transfer([FromBody] TransferFundsDTO model)
         {

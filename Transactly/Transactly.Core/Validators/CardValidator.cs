@@ -61,7 +61,7 @@ namespace Transactly.Core.Validators
             return cardNumber;
         }
 
-        private static string GenerateRandomDigits(int length)
+        public static string GenerateRandomDigits(int length)
         {
             Random random = new();
             char[] digits = new char[length];
