@@ -26,8 +26,8 @@ const Exchange = (props) => {
         "http://localhost:5165/Account/Exchange",
         {
           token: token,
-          fromAccountId: fromAccountRef.current.value,
-          toAccountId: toAccountRef.current.value,
+          fromCurrencyId: fromAccountRef.current.value,
+          toCurrencyId: toAccountRef.current.value,
           amount: parseFloat(amountRef.current.value),
         }
       );
@@ -50,7 +50,7 @@ const Exchange = (props) => {
           <select className="w-full py-3 mt-5" ref={fromAccountRef}>
             <option value="">Select currency to exchange</option>
             {userObject.accounts.map((account) => (
-              <option key={account.id} value={account.id}>
+              <option key={account.id} value={account.currency.id}>
                 {account.currency.currencyCode}
               </option>
             ))}
@@ -59,7 +59,7 @@ const Exchange = (props) => {
           <select className="w-full py-3 mt-5" ref={toAccountRef}>
             <option value="">Select currency to receive</option>
             {userObject.accounts.map((account) => (
-              <option key={account.id} value={account.id}>
+              <option key={account.id} value={account.currency.id}>
                 {account.currency.currencyCode}
               </option>
             ))}
