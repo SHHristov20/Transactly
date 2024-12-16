@@ -107,5 +107,53 @@ namespace Transactly.Server.Controllers
             }
             return BadRequest(new { message = "Failed to login!", errorCode = 500 });
         }
+
+        [HttpPost(Name = "UpdateUser")]
+        public async Task<IActionResult> Update([FromBody] UpdateUserDTO model)
+        {
+            User? user = await _userService.GetUserByToken(model.Token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "User data is required!", errorCode = 400 });
+            }
+            if (UserValidator.ValidateEmail(model.Email) == false)
+            {
+                return BadRequest(new { message = "Invalid email!", errorCode = 400 });
+            }
+            if (UserValidator.ValidatePhoneNumber(model.PhoneNumber) == false)
+            {
+                return BadRequest(new { message = "Invalid phone number!", errorCode = 400 });
+            }
+            if (UserValidator.ValidatePassword(model.Password) == false)
+            {
+                return BadRequest(new { message = "Password must contain atleast 8 characters!", errorCode = 400 });
+            }
+            if (await _userService.GetUserByEmail(model.Email) != null && model.Email != user.Email)
+            {
+                return BadRequest(new { message = "Email already exists!", errorCode = 400 });
+            }
+            if (await _userService.GetUserByPhoneNumber(model.PhoneNumber) != null && model.PhoneNumber != user.PhoneNumber)
+            {
+                return BadRequest(new { message = "Phone number already exists!", errorCode = 400 });
+            }
+            if (await _userService.GetUserByUserTag(model.UserTag) != null && model.UserTag != user.UserTag)
+            {
+                return BadRequest(new { message = "User tag already exists!", errorCode = 400 });
+            }
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            user.UserTag = model.UserTag;
+            user.PasswordHash = PasswordValidator.HashPassword(model.Password);
+            bool result = await _userService.Update<User>(user);
+            if (result)
+            {
+                return Ok(user);
+            }
+            return BadRequest(new { message = "Failed to update user!", errorCode = 500 });
+        }
     }
 }

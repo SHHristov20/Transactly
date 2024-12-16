@@ -20,4 +20,15 @@ namespace Transactly.Core.DTOs
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
     }
+
+    public class UpdateUserDTO
+    {
+        public Guid Token { get; set; }
+        public string Email { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
+
+        public string Password { get; set; } = null!;
+
+        public string UserTag { get; set; } = null!;
+    }
 }
