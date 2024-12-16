@@ -13,11 +13,7 @@ const Header = (props) => {
       <div className="p-6 space-y-3">
         <div className="flex flex-col md:flex-row justify-between">
           <h1 className="text-4xl font-bold mb-4">
-            BGN{" "}
-            {userObject.accounts
-              .map((account) => account.balance)
-              .reduce((a, b) => a + b, 0)
-              .toFixed(2)}
+            BGN {userObject.accounts[0].balance}
           </h1>
 
           <div className="flex gap-x-5">
