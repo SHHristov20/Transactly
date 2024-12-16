@@ -1,9 +1,12 @@
 import React, { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useUserContext } from "./Context/UserContext";
 
 const Deposit = (props) => {
+  const { userObject } = useUserContext();
   const navigate = useNavigate();
+  const accountIdRef = useRef();
   const amountRef = useRef();
   const cardholderRef = useRef();
   const cardNumberRef = useRef();
@@ -26,10 +29,10 @@ const Deposit = (props) => {
       const response = await axios.post(
         "http://localhost:5165/Account/Deposit",
         {
-          accountId: 1,
+          accountId: parseInt(accountIdRef.current.value),
           amount: parseFloat(amountRef.current.value),
           reason: "Deposit",
-          cardNumber: cardNumberRef.current.value,
+          cardNumber: cardNumberRef.current.value.toString().trim(),
           expiryDate: expiryRef.current.value,
           cvv: cvvRef.current.value,
         }
@@ -51,6 +54,18 @@ const Deposit = (props) => {
         <div className="bg-white p-6 w-96 rounded-lg">
           <h1 className="text-2xl font-bold text-center">Deposit Money</h1>
 
+          {/* currency */}
+          <select
+            className="border-b-[1px] focus:outline-none py-2 w-full mb-4"
+            ref={accountIdRef}
+          >
+            {userObject.accounts.map((account) => (
+              <option key={account.id} value={account.id}>
+                {account.currency.currencyName}
+              </option>
+            ))}
+          </select>
+
           <input
             placeholder="Amount"
             className="border-b-[1px] focus:outline-none py-2 w-full mb-4"
@@ -66,7 +81,7 @@ const Deposit = (props) => {
           <input
             placeholder="Card Number"
             className="border-b-[1px] focus:outline-none py-2 w-full mb-4"
-            maxLength={16}
+            maxLength={99}
             ref={cardNumberRef}
           />
 
