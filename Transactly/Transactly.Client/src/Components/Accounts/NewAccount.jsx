@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useUserContext } from "../Context/UserContext";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const NewAccount = (props) => {
   const currencyRef = useRef();
   const [currencies, setCurrencies] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("fetching currencies");
@@ -20,13 +22,22 @@ const NewAccount = (props) => {
 
   const { userObject } = useUserContext();
   const createAccount = async () => {
-    const response = await axios.post("http://localhost:5165/Account/Create", {
-      userId: userObject.id,
-      currencyId: currencyRef.current.value,
-    });
+    try {
+      const response = await axios.post(
+        "http://localhost:5165/Account/Create",
+        {
+          userId: userObject.id,
+          currencyId: currencyRef.current.value,
+        }
+      );
 
-    if (response.status === 200) {
-      props.toggleNewAccount();
+      if (response.status === 200) {
+        props.toggleNewAccount();
+        navigate("/");
+        return;
+      }
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
 

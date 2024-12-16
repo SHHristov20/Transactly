@@ -335,7 +335,7 @@ namespace Transactly.Server.Controllers
                     ToAccountId = recipientAccount.Id,
                     Reason = model.Reason ?? "Transfer",
                     Status = false,
-                    TypeId = 2
+                    TypeId = 3
                 };
                 await _accountService.Create<Transaction>(t);
                 return BadRequest(new { message = "Insufficient funds!", errorCode = 400 });
@@ -360,11 +360,10 @@ namespace Transactly.Server.Controllers
                 ToAccountId = recipientAccount.Id,
                 Reason = model.Reason ?? "Transfer",
                 Status = true,
-                TypeId = 2
+                TypeId = 3
             };
             await _accountService.Create<Transaction>(transaction);
             return Ok();
-            //return await _accountService.TransferFunds(model);
         }
     }
 

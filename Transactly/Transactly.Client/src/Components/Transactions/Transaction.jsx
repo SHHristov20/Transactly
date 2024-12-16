@@ -18,6 +18,9 @@ const Transaction = (props) => {
           {props.transaction.typeId == 1 && (
             <h1 className="font-semibold">+ BGN {props.transaction.amount}</h1>
           )}
+          {props.transaction.typeId == 2 && (
+            <h1 className="font-semibold">- BGN {props.transaction.amount}</h1>
+          )}
           {/* <h1 className="text-gray-500">- $123</h1> */}
         </div>
       </div>

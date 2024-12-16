@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const Deposit = (props) => {
+  const navigate = useNavigate();
   const amountRef = useRef();
   const cardholderRef = useRef();
   const cardNumberRef = useRef();
@@ -9,21 +11,38 @@ const Deposit = (props) => {
   const cvvRef = useRef();
 
   const deposit = async () => {
-    const response = await axios.post("http://localhost:5165/Account/Deposit", {
-      accountId: 1,
-      amount: parseFloat(amountRef.current.value),
-      reason: "Deposit",
-      cardNumber: cardNumberRef.current.value,
-      expiryDate: expiryRef.current.value,
-      cvv: cvvRef.current.value,
-    });
-
-    if (response.status === 200) {
-      alert("Deposited successfully");
-      props.toggleDeposit();
+    if (
+      !amountRef.current.value ||
+      !cardholderRef.current.value ||
+      !cardNumberRef.current.value ||
+      !expiryRef.current.value ||
+      !cvvRef.current.value
+    ) {
+      alert("Please fill all fields");
+      return;
     }
 
-    console.log(response);
+    try {
+      const response = await axios.post(
+        "http://localhost:5165/Account/Deposit",
+        {
+          accountId: 1,
+          amount: parseFloat(amountRef.current.value),
+          reason: "Deposit",
+          cardNumber: cardNumberRef.current.value,
+          expiryDate: expiryRef.current.value,
+          cvv: cvvRef.current.value,
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Deposited successfully");
+        props.toggleDeposit();
+        navigate("/");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
 
   return (
