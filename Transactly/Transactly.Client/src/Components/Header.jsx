@@ -27,7 +27,10 @@ const Header = (props) => {
             >
               <FaPlus />
             </div>
-            <div className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300">
+            <div
+              className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300"
+              onClick={props.toggleExchange}
+            >
               <FaArrowsRotate />
             </div>
             <div className="bg-white w-14 h-14 rounded-full flex justify-center items-center text-2xl cursor-pointer hover:bg-gray-200 transition-colors duration-300">
@@ -52,15 +55,6 @@ const Header = (props) => {
           >
             Accounts
           </h1>
-
-          {/* <h1
-            className={`px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer ${
-              props.tab === "Summary" ? "border-pink-400" : ""
-            }`}
-            onClick={props.setTab.bind(this, "Summary")}
-          >
-            Summary
-          </h1> */}
           <h1
             className={`px-2 border-l-[2px] transition-colors duration-300 hover:border-pink-400 cursor-pointer ${
               props.tab === "Transactions" ? "border-pink-400" : ""
