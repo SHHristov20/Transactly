@@ -154,6 +154,7 @@ namespace Transactly.Server.Controllers
             foreach (Account acc in accounts)
             {
                 IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
+                accTransactions = accTransactions.OrderByDescending(t => t.Date);
                 foreach (Transaction trans in accTransactions)
                 {
                     if (trans.FromAccountId == acc.Id || trans.ToAccountId == acc.Id)
@@ -178,6 +179,7 @@ namespace Transactly.Server.Controllers
             foreach (Account acc in accounts)
             {
                 IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
+                accTransactions = accTransactions.OrderByDescending(t => t.Date);
                 foreach (Transaction transaction in accTransactions)
                 {
                     if (transaction.ToAccountId == acc.Id)
@@ -202,6 +204,7 @@ namespace Transactly.Server.Controllers
             foreach (Account acc in accounts)
             {
                 IEnumerable<Transaction> accTransactions = await _accountService.GetAll<Transaction>();
+                accTransactions = accTransactions.OrderByDescending(t => t.Date);
                 foreach (Transaction transaction in accTransactions)
                 {
                     if (transaction.FromAccountId == acc.Id)
