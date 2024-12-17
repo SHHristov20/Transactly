@@ -13,7 +13,7 @@ const Header = (props) => {
       <div className="p-6 space-y-3">
         <div className="flex flex-col md:flex-row justify-between">
           <h1 className="text-4xl font-bold mb-4">
-            {!userObject.accounts[0].balance ? "Create an account first" : userObject.accounts[0].currency.currencySymbol + " " + userObject.accounts[0].balance}
+            {!userObject.accounts[0] ? "Create an account first" : userObject.accounts[0].currency.currencySymbol + " " + userObject.accounts[0].balance}
           </h1>
 
           <div className="flex gap-x-5">
@@ -40,7 +40,7 @@ const Header = (props) => {
             </div>
           </div>
         </div>
-        <p>Total balance in base currency of BGN.</p>
+              <p>{userObject.accounts[0] ? "Total amount in " + userObject.accounts[0].currency.currencyName : ""}</p>
 
         <div className="flex gap-x-10 border-b-[2px] py-2">
           <h1

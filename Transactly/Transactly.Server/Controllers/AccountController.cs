@@ -60,10 +60,6 @@ namespace Transactly.Server.Controllers
             {
                 return BadRequest(new { message = "Amount must be greater than 0!", errorCode = 400 });
             }
-            if (CardValidator.IsValidCreditCardNumber(model.CardNumber) == false)
-            {
-                return BadRequest(new { message = "Invalid card number!", errorCode = 400 });
-            }
             if (CardValidator.IsValidExpiryDate(model.ExpiryDate) == false)
             {
                 return BadRequest(new { message = "Invalid expiration date!", errorCode = 400 });
@@ -108,6 +104,10 @@ namespace Transactly.Server.Controllers
             }
             else
             {
+                if (CardValidator.IsValidCreditCardNumber(model.CardNumber) == false)
+                {
+                    return BadRequest(new { message = "Invalid card number!", errorCode = 400 });
+                }
                 account.Balance += Math.Round(model.Amount, 2);
                 bool result = await _accountService.Update<Account>(account);
                 Transaction transaction = new()
