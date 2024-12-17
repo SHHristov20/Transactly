@@ -4,9 +4,10 @@ import { useUserContext } from "./Context/UserContext";
 import { useNavigate } from "react-router";
 
 const Transfer = (props) => {
-  const [option, setOption] = useState(""); // Changed initial value to a string
+  const [option, setOption] = useState("");
   const inputRef = useRef();
   const amountRef = useRef();
+  const accountIdRef = useRef();
   const { token, userObject } = useUserContext();
   const navigate = useNavigate();
 
@@ -17,14 +18,15 @@ const Transfer = (props) => {
         "http://localhost:5165/Account/Transfer",
         {
           token: token,
-          fromAccountId: userObject.accounts[0]?.id,
+          fromAccountId: parseInt(accountIdRef.current.value),
           [dynamicKey]: inputRef.current?.value,
           amount: parseFloat(amountRef.current?.value),
         }
       );
+      alert("Transfer successful");
       navigate("/");
     } catch (error) {
-      console.error("Error during transfer:", error);
+      alert(error.response.data.message);
     }
   };
 
@@ -56,6 +58,18 @@ const Transfer = (props) => {
           )}
 
           {option && (
+            <select className="w-full py-3 mt-5"
+              ref={accountIdRef}
+            >
+              {userObject.accounts.map((account) => (
+                <option key={account.id} value={account.id}>
+                  {account.currency.currencyName}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {option && (
             <input
               type="number"
               placeholder="Enter amount"
@@ -67,7 +81,7 @@ const Transfer = (props) => {
           <div className="flex gap-x-5 mt-5">
             <button
               className="bg-pink-600 text-white rounded-full w-full py-3"
-              onClick={submitTransfer} // Added onClick handler
+              onClick={submitTransfer}
             >
               Submit transfer
             </button>

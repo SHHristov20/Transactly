@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import axios from "axios";
 
 const Register = () => {
@@ -29,6 +29,12 @@ const Register = () => {
       <div className="flex w-screen h-screen justify-center items-center">
         <div className="flex flex-col gap-y-6 md:w-1/2 xl:w-1/3">
           <h1 className="text-center text-4xl font-bold pb-5">Register</h1>
+          <h1>
+            Already have an account?{" "}
+            <Link to={"/"}>
+              <span className="text-pink-600 underline">Login</span>
+            </Link>
+          </h1>
           <input
             placeholder="First Name"
             className="border-b-[1px] focus:outline-none py-2"
