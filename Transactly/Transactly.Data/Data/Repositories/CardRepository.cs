@@ -63,5 +63,10 @@ namespace Transactly.Data.Data.Repositories
             await Create<Transaction>(transaction);
             return true;
         }
+
+        public async Task<Card?> GetCardByAccountId(int accountId)
+        {
+            return await _dbContext.Cards.FirstOrDefaultAsync(c => c.AccountId == accountId);
+        }
     }
 }

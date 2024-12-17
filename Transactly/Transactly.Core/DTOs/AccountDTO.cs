@@ -48,4 +48,9 @@ namespace Transactly.Core.DTOs
         public decimal Amount { get; set; }
     }
 
-}
+    public class GetCardByAccountIdDTO
+    {
+        public Guid Token { get; set; }
+        public int AccountId { get; set; }
+
+    }

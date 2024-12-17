@@ -249,6 +249,27 @@ namespace Transactly.Server.Controllers
             return result ? Ok() : BadRequest(new { message = "Failed to create card!", errorCode = 500 });
         }
 
+        [HttpGet(Name = "GetCardByAccountId")]
+        public async Task<IActionResult> GetCardByAccountId([FromBody] GetCardByAccountIdDTO model)
+        {
+            User? user = await _userService.GetUserByToken(model.Token);
+            if (user == null || user.TokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
+            }
+            Account? account = await _accountService.GetById<Account>(model.AccountId);
+            if (account == null)
+            {
+                return BadRequest(new { message = "Account not found!", errorCode = 404 });
+            }
+            if (account.UserId != user.Id)
+            {
+                return BadRequest(new { message = "Account does not belong to user!", errorCode = 400 });
+            }
+            Card? card = await _cardService.GetCardByAccountId(account.Id);
+            return card != null ? Ok(card) : BadRequest(new { message = "No Card found!", errorCode = 404 });
+        }
+
         [HttpPost(Name = "TransferFunds")]
         public async Task<IActionResult> Transfer([FromBody] TransferFundsDTO model)
         {
