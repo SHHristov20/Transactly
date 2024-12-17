@@ -39,7 +39,7 @@ namespace Transactly.Core.DTOs
         public decimal Amount { get; set; }
         public string? Reason { get; set; } = "Transfer";
     }
-    
+
     public class ExchangeCurrencyDTO
     {
         public Guid Token { get; set; }
@@ -47,10 +47,4 @@ namespace Transactly.Core.DTOs
         public int ToCurrencyId { get; set; }
         public decimal Amount { get; set; }
     }
-
-    public class GetCardByAccountIdDTO
-    {
-        public Guid Token { get; set; }
-        public int AccountId { get; set; }
-
-    }
+}

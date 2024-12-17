@@ -250,14 +250,14 @@ namespace Transactly.Server.Controllers
         }
 
         [HttpGet(Name = "GetCardByAccountId")]
-        public async Task<IActionResult> GetCardByAccountId([FromBody] GetCardByAccountIdDTO model)
+        public async Task<IActionResult> GetCardByAccountId([FromQuery] Guid token, int accountId)
         {
-            User? user = await _userService.GetUserByToken(model.Token);
+            User? user = await _userService.GetUserByToken(token);
             if (user == null || user.TokenExpiry < DateTime.Now)
             {
                 return BadRequest(new { message = "Invalid session token!", errorCode = 400 });
             }
-            Account? account = await _accountService.GetById<Account>(model.AccountId);
+            Account? account = await _accountService.GetById<Account>(accountId);
             if (account == null)
             {
                 return BadRequest(new { message = "Account not found!", errorCode = 404 });
