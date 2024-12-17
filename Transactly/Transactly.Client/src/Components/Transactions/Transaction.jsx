@@ -1,6 +1,9 @@
 import React from "react";
+import { useUserContext } from "../Context/UserContext";
 
 const Transaction = (props) => {
+  const { userObject } = useUserContext();
+
   return (
     <React.Fragment>
       <div className="flex justify-between items-center p-5 space-x-3 rounded-xl hover:shadow-2xl transition-shadow duration-300 cursor-pointer">
@@ -15,13 +18,17 @@ const Transaction = (props) => {
           </div>
         </div>
         <div>
-          {props.transaction.typeId == 1 && (
-            <h1 className="font-semibold">+ BGN {props.transaction.amount}</h1>
+          {props.transaction.toAccount.userId == userObject.id ? (
+            <h1 className="text-green-500">
+              +{props.transaction.amount}{" "}
+              {props.transaction.toAccount.currency.currencyName}
+            </h1>
+          ) : (
+            <h1 className="text-red-500">
+              -{props.transaction.amount}{" "}
+              {props.transaction.fromAccount.currency.currencyName}
+            </h1>
           )}
-          {props.transaction.typeId == 2 && (
-            <h1 className="font-semibold">- BGN {props.transaction.amount}</h1>
-          )}
-          {/* <h1 className="text-gray-500">- $123</h1> */}
         </div>
       </div>
     </React.Fragment>
